@@ -696,7 +696,7 @@ namespace dotBunny.Unity
             
             Enabled = EditorGUILayout.Toggle(new GUIContent("Enable Integration", "Should the integration work its magic for you?"), Enabled);
             
-            CodePath = EditorGUILayout.DelayedTextField(new GUIContent("VS Code Path", "Full pah to the Micosoft Visual Studio code executable."), CodePath);
+           // CodePath = EditorGUILayout.DelayedTextField(new GUIContent("VS Code Path", "Full pah to the Micosoft Visual Studio code executable."), CodePath);
             
             
             UseUnityDebugger = EditorGUILayout.Toggle(new GUIContent("Use Unity Debugger", "Should the integration integrate with Unity's VSCode Extension (must be installed)."), UseUnityDebugger);
