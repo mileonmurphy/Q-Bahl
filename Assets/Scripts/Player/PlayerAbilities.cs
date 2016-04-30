@@ -18,9 +18,9 @@ public class PlayerAbilities : MonoBehaviour {
 	void UseAbility () {
 		if (current_player_form != null) {
 			Debug.Log ("IM HERE");
-			if (Input.GetButton("Fire1")) {
+			if (Input.GetMouseButtonDown(0)) {
 				UseAbility1 ();
-			} else if (Input.GetButton("Fire2")) {
+			} else if (Input.GetMouseButtonUp(1)) {
 				UseAbility2 ();
 			} else if (Input.GetKeyDown(KeyCode.E)) {
 				UseSpecialAbility ();
