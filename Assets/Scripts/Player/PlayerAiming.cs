@@ -7,7 +7,7 @@ public class PlayerAiming : MonoBehaviour {
 	Vector3 mouse_pos;
 	Vector3 arm_pos;
 	private float turn_angle;
-    private bool looking_right;
+    public bool looking_right;
 
     void Awake () {
         looking_right = true;
