@@ -1,23 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerNormalForm : PlayerTransform {
 
 	public Rigidbody rb;
 	public BoxCollider meleeBox;
+	public BoxCollider aoeBox;
+	public GameObject aoeParticleEffect;
+	public ParticleSystem dashParticleEffect;
+	private RaycastHit hit;
+	private float rayDist = 20.0f;
+	private Vector3 rayDir = new Vector3 (0, -1, 0);
 	public float cooldown1;
 	public bool isCooling1 = false;
 	public float cooldown2;
 	public bool isCooling2 = false;
 	public float cooldown3;
 	public bool isCooling3 = false;
+	public AbilityState currentAbilityState;
+	public List<GameObject> dashHitList;
 
 	void Awake () {
 		transform_name = "Normal";
 		transform_description = "What his momma gave him.";
 		cooldown1 = 0.25f;
 		cooldown2 = 1.0f;
-		cooldown3 = 2.0f;
+		cooldown3 = 3.0f;
+		currentAbilityState = AbilityState.IDLE;
+	}
+
+	void Update () {
+		switch (currentAbilityState) {
+
+		case AbilityState.DASHING:
+			
+			foreach (GameObject obj in meleeBox.GetComponent<MeleeHitBox> ().currentCols) {
+				if (obj != null && obj.tag == "Enemy" & !dashHitList.Contains (obj)) {
+					Debug.Log ("I dashed a dude!");
+					obj.GetComponent<EnemyHealth> ().addDamage (5);
+					dashHitList.Add (obj);
+				}
+			}
+			break;
+		}
 	}
 
 	public override void Ability1() {
@@ -32,6 +58,7 @@ public class PlayerNormalForm : PlayerTransform {
 
 	public override void SpecialAbility() {
 		Debug.Log ("Normal Special Ability");
+		groundSlam ();
 	}
 
 	private void punch () {
@@ -49,6 +76,8 @@ public class PlayerNormalForm : PlayerTransform {
 		
 	private void dash () {
 		if (!isCooling2) {
+			currentAbilityState = AbilityState.DASHING;
+			dashParticleEffect.Play ();
 			bool lookingRight = rb.GetComponent<PlayerAiming> ().looking_right;
 			if (lookingRight) {
 				rb.velocity = Vector3.zero;
@@ -62,10 +91,21 @@ public class PlayerNormalForm : PlayerTransform {
 			Debug.Log ("DASHING THROUGH THE SNOW!!!");
 		}
 	}
-
-
-	private void groundSlam () {
 		
+	private void groundSlam () {
+		if (!isCooling3) {
+			if (Physics.Raycast (rb.transform.position, rayDir, out hit, rayDist)) {
+				Instantiate (aoeParticleEffect, new Vector3 (rb.position.x, hit.point.y, rb.position.z), Quaternion.identity);
+				foreach (GameObject obj in aoeBox.GetComponent<MeleeHitBox> ().currentCols) {
+					if (obj != null && obj.tag == "Enemy") {
+						Debug.Log ("I normal specialed dudes!");
+						obj.GetComponent<EnemyHealth> ().addDamage (20);
+					}
+				}
+				isCooling3 = true;
+				Invoke ("resetCooling3", cooldown3);
+			}
+		}
 	}
 
 	private void resetCooling1 () {
@@ -74,9 +114,16 @@ public class PlayerNormalForm : PlayerTransform {
 
 	private void resetCooling2 () {
 		isCooling2 = false;
+		dashHitList.Clear ();
+		currentAbilityState = AbilityState.IDLE;
 	}
 
-	private void reset3Cooling3 () {
+	private void resetCooling3 () {
 		isCooling3 = false;
+	}
+
+	public enum AbilityState {
+		IDLE,
+		DASHING
 	}
 }
