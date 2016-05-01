@@ -8,6 +8,7 @@
 sysinfo.txt
 *.stackdump
 *.pidb.meta
+*.meta
 
  
 # ===================================== #
