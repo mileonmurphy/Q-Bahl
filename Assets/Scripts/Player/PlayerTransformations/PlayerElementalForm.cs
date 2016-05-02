@@ -11,7 +11,6 @@ public class PlayerElementalForm : PlayerTransform {
 
 	Rigidbody rb;
 	Rigidbody fireballRb;
-	GameObject spawnedRockWall;
 
 	PlayerAiming playerAim;
 	float rayDist = 20.0f;
@@ -70,26 +69,14 @@ public class PlayerElementalForm : PlayerTransform {
 		if (!isCooling2) {
 			if (Physics.Raycast (rb.transform.position, rayDir, out hit, rayDist)) {
 				if (playerAim.looking_right) {
-					rockWallDir = 10f;
+					rockWallDir = 5f;
 				} else {
-					rockWallDir = -10f;
+					rockWallDir = -5f;
 				}
-				Debug.Log ("EHRE COMES THE WALL!");
-				spawnedRockWall = (GameObject) Instantiate (rockWallObject, new Vector3 (rb.position.x + rockWallDir, hit.point.y, rb.position.z), Quaternion.Euler(0,90,0));
+				Instantiate (rockWallObject, new Vector3 (rb.position.x + rockWallDir, hit.point.y, rb.position.z), Quaternion.Euler(0,90,0));
 				isCooling2 = true;
-				wallGrowthCount = 5;
-//				InvokeRepeating ("raiseRockWall", 0.0f, 0.1f);
 				Invoke ("resetCooling2", cooldown2);
 			}
-		}
-	}
-
-	private void raiseRockWall () {
-		
-		spawnedRockWall.transform.Translate (0, 0.01f, 0);
-		wallGrowthCount -= 0.1f;
-		if (wallGrowthCount <= 0) {
-			CancelInvoke ("raiseRockWall");
 		}
 	}
 
