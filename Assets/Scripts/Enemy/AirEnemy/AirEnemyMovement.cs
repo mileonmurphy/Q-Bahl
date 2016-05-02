@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AirEnemyMovement : MonoBehaviour {
 
+	float attackSpeed = 10;
 	float speed = 5;
 	float wanderSpeed = 3;
 
@@ -15,6 +16,7 @@ public class AirEnemyMovement : MonoBehaviour {
 
 	bool wandering;
 	bool wanderRight;
+	bool attacking;
 
 	float attackDist = 5.0f;
 
@@ -29,6 +31,7 @@ public class AirEnemyMovement : MonoBehaviour {
 		leftPos += startPos;
 		rightPos = Vector3.right * 5;
 		rightPos += startPos;
+		attacking = false;
 	}
 
 	// Update is called once per frame
@@ -54,15 +57,22 @@ public class AirEnemyMovement : MonoBehaviour {
 				}
 			}
 		} else {
+			if (attacking == false) {
+				if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
+					transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
+					transform.Translate (speed * Time.deltaTime, 0, 0);
+				} else {
+					attacking = true;
+				}
 
-			if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
-				transform.Translate (speed * Time.deltaTime, 0, 0);
-			}
-
-			if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
-				transform.Translate (speed * Time.deltaTime, 0, 0);
+				if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
+					transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+					transform.Translate (speed * Time.deltaTime, 0, 0);
+				} else {
+					attacking = true;
+				}
+			} else {
+				
 			}
 		}
 
@@ -75,9 +85,19 @@ public class AirEnemyMovement : MonoBehaviour {
 				}
 			}
 		}
+
+		//zero out the z
+		Vector3 tempPos = new Vector3(this.transform.position.x,this.transform.position.y,startPos.z);
+		this.transform.position = tempPos;
 	}
 
 	void SwitchWander(){
 		wanderRight = !wanderRight;
+	}
+
+	void OnTriggerEnter(Collider other){
+		if (other.gameObject.CompareTag ("Player")) {
+			Destroy (this.gameObject);
+		}
 	}
 }
