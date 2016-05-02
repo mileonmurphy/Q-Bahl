@@ -20,8 +20,11 @@ public class PlayerNormalForm : PlayerTransform {
 	public bool isCooling3 = false;
 	public AbilityState currentAbilityState;
 	public List<GameObject> dashHitList;
+	PlayerAiming playerAim;
+
 
 	void Awake () {
+		playerAim = rb.GetComponent<PlayerAiming> ();
 		transform_name = "Normal";
 		transform_description = "What his momma gave him.";
 		cooldown1 = 0.25f;
@@ -34,7 +37,6 @@ public class PlayerNormalForm : PlayerTransform {
 		switch (currentAbilityState) {
 
 		case AbilityState.DASHING:
-			
 			foreach (GameObject obj in meleeBox.GetComponent<MeleeHitBox> ().currentCols) {
 				if (obj != null && obj.tag == "Enemy" & !dashHitList.Contains (obj)) {
 					Debug.Log ("I dashed a dude!");
@@ -76,16 +78,12 @@ public class PlayerNormalForm : PlayerTransform {
 		
 	private void dash () {
 		if (!isCooling2) {
+			Vector3 dashDir = (playerAim.mouse_pos - transform.position).normalized;
+
 			currentAbilityState = AbilityState.DASHING;
 			dashParticleEffect.Play ();
-			bool lookingRight = rb.GetComponent<PlayerAiming> ().looking_right;
-			if (lookingRight) {
-				rb.velocity = Vector3.zero;
-				rb.AddForce (new Vector3 (500f, 0, 0));
-			} else {
-				rb.velocity = Vector3.zero;
-				rb.AddForce (new Vector3 (-500f, 0, 0));
-			}
+			rb.velocity = Vector3.zero;
+			rb.AddForce (new Vector3 (dashDir.x * 600f, dashDir.y * 600f, 0f));
 			isCooling2 = true;
 			Invoke ("resetCooling2", cooldown2);
 			Debug.Log ("DASHING THROUGH THE SNOW!!!");

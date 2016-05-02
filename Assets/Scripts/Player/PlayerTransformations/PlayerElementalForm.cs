@@ -4,21 +4,19 @@ using System.Collections;
 public class PlayerElementalForm : PlayerTransform {
 
 
-	public GameObject rockWallObject;
-	public GameObject fireball;
-	public float turnAngle;
-	public float fireballSpeed = 1000f;
-
+	GameObject rockWallObject;
+	GameObject fireball;
+	GameObject hailStormObject;
 	Rigidbody rb;
 	Rigidbody fireballRb;
-
 	PlayerAiming playerAim;
-	float rayDist = 20.0f;
 	Vector3 rayDir = new Vector3 (0, -1, 0);
 	RaycastHit hit;
-	Vector3 mouseToWorld;
+	float rayDist = 20.0f;
+	public float turnAngle;
+	public float fireballSpeed = 1000f;
 	float rockWallDir;
-	float wallGrowthCount;
+
 
 	// Cooldown Variables
 	public float cooldown1;
@@ -31,11 +29,14 @@ public class PlayerElementalForm : PlayerTransform {
 	void Awake () {
 		rb = GetComponent<Rigidbody> ();
 		playerAim = rb.GetComponent<PlayerAiming> ();
+		fireball = Resources.Load ("Prefabs/Abilities/Fireball_Ability") as GameObject;
+		rockWallObject = Resources.Load("Prefabs/Abilities/Rock Wall") as GameObject;
+		hailStormObject = Resources.Load ("Prefabs/Abilities/Hail Storm") as GameObject;
 		transform_name = "Elemental";
 		transform_description = "Avatar yo.";
 		cooldown1 = 1.0f;
 		cooldown2 = 5.0f;
-		cooldown3 = 3.0f;
+		cooldown3 = 6.0f;
 	}
 	
 	public override void Ability1() {
@@ -50,6 +51,7 @@ public class PlayerElementalForm : PlayerTransform {
 	
 	public override void SpecialAbility() {
 		Debug.Log ("Elemental Special Ability");
+		hailStorm ();
 	}
 
 	private void shootFireball () {
@@ -77,6 +79,19 @@ public class PlayerElementalForm : PlayerTransform {
 				isCooling2 = true;
 				Invoke ("resetCooling2", cooldown2);
 			}
+		}
+	}
+
+	private void hailStorm () {
+		if (!isCooling3) {
+			if (playerAim.looking_right) {
+				rockWallDir = 5f;
+			} else {
+				rockWallDir = -5f;
+			}
+			Instantiate (hailStormObject, new Vector3 (rb.position.x + rockWallDir, rb.position.y + 10f, rb.position.z), Quaternion.identity);
+			isCooling3 = true;
+			Invoke ("resetCooling3", cooldown3);
 		}
 	}
 
