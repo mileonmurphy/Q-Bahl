@@ -8,6 +8,8 @@
 sysinfo.txt
 *.stackdump
 *.pidb.meta
+
+
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

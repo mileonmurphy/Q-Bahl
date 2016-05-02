@@ -20,15 +20,20 @@ public class EnemyHealth : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentHealth = maxHealth;
+
+		enemyHealthIndicator = GetComponentInChildren<Slider> ();
+
 		enemyHealthIndicator.gameObject.SetActive (false);
 		enemyHealthIndicator.maxValue = maxHealth;
 		enemyHealthIndicator.value = currentHealth;
 		//enemyAS = GetComponent<AudioSource> ();
 	}
-	
+
+
 	// Update is called once per frame
 	void Update () {
-		
+		this.gameObject.GetComponentInChildren<Canvas> ().transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+		enemyHealthIndicator.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 	}
 
 	public void addDamage(int damage){
