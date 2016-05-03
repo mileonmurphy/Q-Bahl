@@ -4,27 +4,36 @@ using System.Collections.Generic;
 
 public class PlayerNormalForm : PlayerTransform {
 
-	public Rigidbody rb;
-	public BoxCollider meleeBox;
-	public BoxCollider aoeBox;
-	public GameObject aoeParticleEffect;
-	public ParticleSystem dashParticleEffect;
-	private RaycastHit hit;
-	private float rayDist = 20.0f;
-	private Vector3 rayDir = new Vector3 (0, -1, 0);
+	Rigidbody rb;
+	PlayerAiming playerAim;
+	AbilityState currentAbilityState;
+	Collider meleeBox;
+	Collider aoeBox;
+	Transform parentHitBox;
+	GameObject aoeParticleEffect;
+	ParticleSystem dashParticleEffect;
+	RaycastHit hit;
+	float rayDist = 20.0f;
+	Vector3 rayDir = new Vector3 (0, -1, 0);
+
 	public float cooldown1;
 	public bool isCooling1 = false;
 	public float cooldown2;
 	public bool isCooling2 = false;
 	public float cooldown3;
 	public bool isCooling3 = false;
-	public AbilityState currentAbilityState;
-	public List<GameObject> dashHitList;
-	PlayerAiming playerAim;
+	List<GameObject> dashHitList;
 
 
 	void Awake () {
+		rb = GetComponent<Rigidbody> ();
 		playerAim = rb.GetComponent<PlayerAiming> ();
+		dashHitList = new List <GameObject> ();
+		meleeBox = transform.FindChild ("MeleeHitBoxes/MeleeHitBoxFront").GetComponent<Collider>();
+		aoeBox = transform.FindChild ("MeleeHitBoxes/AOEHitbox").GetComponent<BoxCollider> ();
+
+		dashParticleEffect = transform.FindChild ("PlayerArm/Normal_Dash_Particle_Effect").gameObject.GetComponent <ParticleSystem> ();
+		aoeParticleEffect = Resources.Load ("Prefabs/Abilities/ParticleEffects/Normal_Special_Ability_Effect") as GameObject;
 		transform_name = "Normal";
 		transform_description = "What his momma gave him.";
 		cooldown1 = 0.25f;

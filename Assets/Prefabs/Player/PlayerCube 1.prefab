@@ -112,7 +112,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &181016
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -168,6 +168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470124}
+  - {fileID: 432326}
   m_Father: {fileID: 458786}
   m_RootOrder: 1
 --- !u!4 &428250
@@ -191,11 +192,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181016}
   m_LocalRotation: {x: 0.7071066, y: -0.00000011520229, z: -0.70710695, w: 0.00000011520235}
-  m_LocalPosition: {x: 0.24, y: 0.18, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.05, z: 0.10000001}
+  m_LocalPosition: {x: 0.24, y: 0.17999983, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.05, z: 0.10000002}
   m_Children: []
-  m_Father: {fileID: 458786}
-  m_RootOrder: 3
+  m_Father: {fileID: 425840}
+  m_RootOrder: 1
 --- !u!4 &458786
 Transform:
   m_ObjectHideFlags: 1
@@ -209,7 +210,6 @@ Transform:
   - {fileID: 476588}
   - {fileID: 425840}
   - {fileID: 428250}
-  - {fileID: 432326}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &470124
@@ -506,19 +506,12 @@ MonoBehaviour:
   ability1_time: 0
   ability2_time: 0
   special_ability_time: 0
-  rb: {fileID: 5400526}
-  meleeBox: {fileID: 6524974}
-  aoeBox: {fileID: 6525340}
-  aoeParticleEffect: {fileID: 109972, guid: e68fd2084e45b408eb811c8ed0f181da, type: 2}
-  dashParticleEffect: {fileID: 19898778}
   cooldown1: 2
   isCooling1: 0
   cooldown2: 5
   isCooling2: 0
   cooldown3: 2
   isCooling3: 0
-  currentAbilityState: 0
-  dashHitList: []
 --- !u!114 &11440594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,6 +554,12 @@ MonoBehaviour:
   ability1_time: 0
   ability2_time: 0
   special_ability_time: 0
+  cooldown1: 0
+  isCooling1: 0
+  cooldown2: 0
+  isCooling2: 0
+  cooldown3: 0
+  isCooling3: 0
 --- !u!114 &11465600
 MonoBehaviour:
   m_ObjectHideFlags: 1

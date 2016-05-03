@@ -11,7 +11,7 @@ public class HailStormHailScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
-		rb.velocity = new Vector3 (1,-25, 0);
+		rb.velocity = new Vector3 (1,-15, 0);
 		Invoke ("autoDestroy", 2);
 	}
 
