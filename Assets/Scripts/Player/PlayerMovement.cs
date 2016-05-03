@@ -42,4 +42,12 @@ public class PlayerMovement : MonoBehaviour {
 			isGrounded = true;
 		}
 	}
+
+	public void ChangeSpeed(float num){
+		speed *= num;
+	}
+
+	public void ResetNormal(){
+		speed = 8f;
+	}
 }

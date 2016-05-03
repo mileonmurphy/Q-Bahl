@@ -23,7 +23,7 @@ public class EnemyHealth : MonoBehaviour {
 
 		enemyHealthIndicator = GetComponentInChildren<Slider> ();
 
-		enemyHealthIndicator.gameObject.SetActive (false);
+		enemyHealthIndicator.gameObject.SetActive (true);
 		enemyHealthIndicator.maxValue = maxHealth;
 		enemyHealthIndicator.value = currentHealth;
 		//enemyAS = GetComponent<AudioSource> ();

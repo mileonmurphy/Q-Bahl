@@ -100,4 +100,16 @@ public class AirEnemyMovement : MonoBehaviour {
 			Destroy (this.gameObject);
 		}
 	}
+
+	public void SpeedChange(float num){
+		wanderSpeed *= num;
+		attackSpeed *= num;
+		speed *= num;
+	}
+
+	public void ResetNormal(){
+		speed = 5f;
+		wanderSpeed = 3f;
+		attackSpeed = 10f;
+	}
 }
