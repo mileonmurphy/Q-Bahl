@@ -68,4 +68,14 @@ public class GroundEnemyMovement : MonoBehaviour {
 	void SwitchWander(){
 		wanderRight = !wanderRight;
 	}
+
+	public void SpeedChange(float num){
+		wanderSpeed *= num;
+		speed *= num;
+	}
+
+	public void ResetNormal(){
+		speed = 5f;
+		wanderSpeed = 3f;
+	}
 }

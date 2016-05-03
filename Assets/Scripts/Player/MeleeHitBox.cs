@@ -6,7 +6,7 @@ public class MeleeHitBox : MonoBehaviour {
 	public List <GameObject> currentCols = new List <GameObject> ();
 
 	void OnTriggerEnter (Collider col) {
-		if (!col.CompareTag ("Player") && !col.CompareTag ("Ground")) {
+		if (!col.CompareTag ("Player") && !col.CompareTag ("Ground") && !col.CompareTag("Player_Hitbox")) {
 			currentCols.Add (col.gameObject);
 		}
 	}
