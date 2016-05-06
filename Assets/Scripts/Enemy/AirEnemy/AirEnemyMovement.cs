@@ -7,6 +7,8 @@ public class AirEnemyMovement : MonoBehaviour {
 	float speed = 5;
 	float wanderSpeed = 3;
 
+    float amplitude = 1;
+
 	GameObject player;
 	GameObject[] groundObjs;
 
@@ -20,8 +22,13 @@ public class AirEnemyMovement : MonoBehaviour {
 
 	float attackDist = 5.0f;
 
+    GameObject lazerEffect;
+    GameObject laserBeamClone;
+    bool isCoolingLazer;
+
 	// Use this for initialization
 	void Start () {
+        lazerEffect = Resources.Load("Prefabs/Enemy/EnemyLazerBeam") as GameObject;
 		player = GameObject.FindGameObjectWithTag ("Player");
 		groundObjs = GameObject.FindGameObjectsWithTag ("Ground");
 		wandering = true;
@@ -32,10 +39,12 @@ public class AirEnemyMovement : MonoBehaviour {
 		rightPos = Vector3.right * 5;
 		rightPos += startPos;
 		attacking = false;
+        isCoolingLazer = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
+        transform.position = new Vector3(transform.position.x, amplitude/100 * Mathf.Sin(wanderSpeed * Time.time) + transform.position.y, transform.position.z);
 		if ((transform.position - player.transform.position).magnitude < 15.0f) {
 			wandering = false;
 		} else {
@@ -74,13 +83,35 @@ public class AirEnemyMovement : MonoBehaviour {
 			} else {
 				
 				if (transform.FindChild ("airEnemy2Real") != null) {
-					if (transform.FindChild ("airEnemy2Real") != null) {
-						transform.FindChild ("airEnemy2Real").localRotation = Quaternion.Euler (0, -90, 0);
-					}
+					transform.FindChild ("airEnemy2Real").localRotation = Quaternion.Euler (0, -90, 0);
 					transform.LookAt (player.transform.position);
 					Vector3 moveTowardDir = (player.transform.position - transform.position).normalized;
 					transform.Translate (moveTowardDir * 1.0f);
 				}
+                if (transform.FindChild("airEnemy1") != null)
+                {
+                    if (player.transform.position.x > transform.position.x)
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    }
+                    if (!isCoolingLazer)
+                    {
+                       // Vector3 laserDir = (player.transform.position - transform.FindChild("LazerFireLoc").transform.position);
+                        
+                        isCoolingLazer = true;
+                        Invoke("shootLazer", 1);
+                        Invoke("resetCoolingLazer", 5);
+                    }
+                    if (GetComponent<LineRenderer>() != null)
+                    {
+                        GetComponent<LineRenderer>().SetPosition(0, transform.FindChild("LazerFireLoc").transform.position);
+                        GetComponent<LineRenderer>().SetPosition(1, player.transform.position);
+                    }
+                }
 			}
 		}
 
@@ -115,9 +146,37 @@ public class AirEnemyMovement : MonoBehaviour {
 		speed *= num;
 	}
 
+    public void shootLazer()
+    {
+        LineRenderer lr = gameObject.AddComponent<LineRenderer>();
+        lr.SetVertexCount(2);
+        lr.SetColors(Color.red, Color.yellow);
+        lr.SetPosition(0, transform.FindChild("LazerFireLoc").transform.position);
+        lr.SetPosition(1, player.transform.position);
+        lr.SetWidth(0.3f, 0.5f);
+        InvokeRepeating("addDamage", 0.1f, 0.1f);
+        Invoke("destroyLazer", 0.8f);
+    }
+
 	public void ResetNormal(){
 		speed = 5f;
 		wanderSpeed = 3f;
 		attackSpeed = 10f;
 	}
+
+    public void resetCoolingLazer()
+    {
+        isCoolingLazer = false;
+    }
+    
+    public void destroyLazer()
+    {
+        CancelInvoke("addDamage");
+        Destroy(GetComponent<LineRenderer>());
+    }
+
+    public void addDamage()
+    {
+        player.GetComponent<PlayerHealth>().TakeDamage(1);
+    }
 }
