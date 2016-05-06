@@ -80,7 +80,7 @@ GameObject:
   - 95: {fileID: 9597664}
   m_Layer: 0
   m_Name: Spiral_02.3 Domain
-  m_TagString: Untagged
+  m_TagString: Particle_Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 137858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.0290384, y: 1, z: 1}
   m_Children:
   - {fileID: 411976}
   - {fileID: 404516}
@@ -278,7 +278,7 @@ Animator:
   m_GameObject: {fileID: 137858}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8b21f92165f083b4baea7a0a4e517fff, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

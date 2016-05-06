@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RangedBombAbility : MonoBehaviour {
-	List<string> TagChecks = new List<string> {"Player", "Player_Hitbox"};
+	List<string> TagChecks = new List<string> {"Player", "Player_Hitbox", "Particle_Effect"};
 	GameObject AOECol;
 	GameObject bombPE;
 	GameObject bombMistPE;
@@ -17,6 +17,7 @@ public class RangedBombAbility : MonoBehaviour {
 
 	void OnTriggerEnter (Collider col) {
 		if (!TagChecks.Contains (col.gameObject.tag)) {
+			Debug.Log (col);
 			Instantiate (AOECol, transform.position, Quaternion.identity);
 			Instantiate (bombPE, transform.position, transform.rotation);
 			Instantiate (bombMistPE, transform.position, transform.rotation);

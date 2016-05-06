@@ -49,7 +49,6 @@ public class PlayerRangedForm : PlayerTransform {
 	void fireGatlingGun () {
 		if (!isCooling1) {
 			Vector3 bulletDir = (playerAim.mouse_pos - transform.position).normalized;
-			//randAngle = Random.Range (playerAim.turn_angle - 10f, playerAim.turn_angle + 10f);
 			laserBulletClone = (GameObject)Instantiate (laserBulletObject, new Vector3 (transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.Euler(0, 0, playerAim.turn_angle));
 			bulletDir.z = 0f;
 			//bulletDir = bulletDir.normalized;
@@ -74,10 +73,10 @@ public class PlayerRangedForm : PlayerTransform {
 	void shootBomb(){
 		if (!isCooling3) {
 			isCooling3 = true;
-			bombClone = (GameObject) Instantiate (bombObject, transform.position, Quaternion.identity);
+			bombClone = (GameObject) Instantiate (bombObject, new Vector3 (transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.Euler(0, 0, playerAim.turn_angle));
 			Vector3 bombDir = (playerAim.mouse_pos - transform.position).normalized;
-			bombClone.GetComponent<Rigidbody> ().velocity = new Vector3 (bombDir.x * 25f, bombDir.y * 25f, 0f);
-
+			bombClone.GetComponent<Rigidbody> ().velocity = new Vector3 (bombDir.x * 15f, bombDir.y * 15f, 0f);
+			bombClone.GetComponent<Rigidbody> ().AddTorque (0f, 0f, -1000f);
 			Invoke ("resetCooling3", 15f);
 		}
 	}
