@@ -9,6 +9,11 @@ public class PlayerMovement : MonoBehaviour {
 
 	Vector3 movement;
 	Rigidbody playerRigidbody;
+	RaycastHit hit;
+	Vector3 rayDir = new Vector3 (0f, -1f, 0f);
+	float rayDist = 0.8f;
+
+
 
 	// Use this for initialization
 	void Awake () {
@@ -40,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 		
 	void OnCollisionEnter(Collision other) {
-		if (other.gameObject.CompareTag ("Ground")) {
+		if (Physics.Raycast (transform.position, rayDir, out hit, rayDist)) {
 			isGrounded = true;
 		}
 	}

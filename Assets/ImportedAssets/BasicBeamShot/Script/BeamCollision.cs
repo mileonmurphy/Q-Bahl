@@ -10,8 +10,6 @@ public class BeamCollision : MonoBehaviour {
 
 	public GameObject HitEffect = null;
 
-	private bool bHit = false;
-
 	private BeamParam BP;
 
 	RaycastHit[] hits;

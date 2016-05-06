@@ -14,7 +14,7 @@ public class SlowDown : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if (other.CompareTag ("Player")) {
-			other.GetComponent<PlayerMovement> ().ChangeSpeed (0.5f);
+			//other.GetComponent<PlayerMovement> ().ChangeSpeed (0.5f);
 		} else if (other.CompareTag ("Enemy")) {
 			if (other.GetComponent<AirEnemyMovement> () != null)
 				other.GetComponent < AirEnemyMovement> ().SpeedChange (0.5f);
@@ -29,7 +29,7 @@ public class SlowDown : MonoBehaviour {
 
 	void OnTriggerExit(Collider other){
 		if (other.CompareTag ("Player")) {
-			other.GetComponent<PlayerMovement> ().ChangeSpeed (2);		
+			//other.GetComponent<PlayerMovement> ().ChangeSpeed (2);		
 		} else if (other.CompareTag ("Enemy")) {
 			if (other.GetComponent<AirEnemyMovement> () != null)
 				other.GetComponent < AirEnemyMovement> ().SpeedChange (2);

@@ -44,7 +44,7 @@ public class PlayerWarpForm : PlayerTransform {
 		rb = GetComponent<Rigidbody> ();
 
 		cooldown1 = 3.0f;
-		cooldown2 = 5.0f;
+		cooldown2 = 6.0f;
 		cooldown3 = 6.0f;
 
 		isCooling1 = false;
@@ -104,7 +104,7 @@ public class PlayerWarpForm : PlayerTransform {
 	private void MakeSlowDownBubble(){
 		if (!isCooling2) {
 			currSlowBubble = (GameObject)Instantiate (slowDownBubble, transform.position, new Quaternion (0, 0, 0, 0));
-			Invoke ("DestroySlowDownBubble", 2f);
+			Invoke ("DestroySlowDownBubble",cooldown2);
 			Invoke ("ResetCooling2", cooldown2);
 			isCooling2 = true;
 		} else {
@@ -115,7 +115,7 @@ public class PlayerWarpForm : PlayerTransform {
 	private void MakeSpeedUpBubble(){
 		if (!isCooling1) {
 			currSpeedBubble = (GameObject)Instantiate (speedUpBubble, transform.position, new Quaternion (0, 0, 0, 0));
-			Invoke ("DestroySpeedUpBubble", 2f);
+			Invoke ("DestroySpeedUpBubble", cooldown1);
 			Invoke ("ResetCooling1", cooldown1);
 			isCooling1 = true;
 		} else {

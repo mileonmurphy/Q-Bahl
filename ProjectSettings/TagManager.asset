@@ -12,6 +12,7 @@ TagManager:
   - Bullet
   - Bomb
   - Kamikaze
+  - Particle_Effect
   layers:
   - Default
   - TransparentFX

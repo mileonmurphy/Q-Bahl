@@ -136,6 +136,10 @@ Material:
         second: 0
       data:
         first:
+          name: _spec
+        second: 0
+      data:
+        first:
           name: _exp
         second: 1.71
       data:
@@ -144,12 +148,8 @@ Material:
         second: 0.178
       data:
         first:
-          name: _spec
-        second: 0
-      data:
-        first:
           name: _opac
-        second: 0.893
+        second: 0.82
       data:
         first:
           name: _emmispower
@@ -157,7 +157,7 @@ Material:
       data:
         first:
           name: _refract
-        second: 0.626
+        second: 0.42
       data:
         first:
           name: _refract_dudv
@@ -174,11 +174,11 @@ Material:
       data:
         first:
           name: _coloroverride
-        second: {r: 0.49826986, g: 0.671519, b: 0.7058823, a: 1}
+        second: {r: 1, g: 0.7976673, b: 0.5808823, a: 1}
       data:
         first:
           name: _colspec1
-        second: {r: 0.7058823, g: 0.03633217, b: 0.6320015, a: 1}
+        second: {r: 0.85294116, g: 0.018814897, b: 0.7609004, a: 1}
       data:
         first:
           name: _colspec2
