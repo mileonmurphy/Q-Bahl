@@ -11,10 +11,6 @@ public class Fireball_Script : MonoBehaviour {
 	void Awake () {
 		rb = GetComponent<Rigidbody> ();
 	}
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnTriggerEnter (Collider col) {
 		if (!TagChecks.Contains(col.gameObject.tag)) {

@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxLength: 32
-  StartSize: 1
+  StartSize: 0
   AnimationSpd: 0.1
   BeamColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &11425470
@@ -296,7 +296,7 @@ LineRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2100000, guid: f589c30260d36aa4cac179564951f59b, type: 2}
+  - {fileID: 2100000, guid: 5efe7a951fae6d249accd2b5c8891d3a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

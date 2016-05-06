@@ -33,7 +33,7 @@ public class HailStormScript : MonoBehaviour {
 		yDIm = rend.bounds.size.y / 2.0f;
 		zDim = rend.bounds.size.z / 2.0f;
 
-		Instantiate (lightningSpark, trans.position, Quaternion.identity);
+//		Instantiate (lightningSpark, trans.position, Quaternion.identity);
 		InvokeRepeating ("spawnHail", 1, 0.4f);
 		Invoke ("despawnStorm", 8);
 	}
