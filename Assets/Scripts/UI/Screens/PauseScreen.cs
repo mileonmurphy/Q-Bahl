@@ -17,13 +17,9 @@ public class PauseScreen : ScreenBase {
 	{
 		base.Start ();
 		_resumeGame = GameObject.Find ("Resume").GetComponent<Button>();
-		_stats = GameObject.Find ("Stats").GetComponent<Button>();
-		_options = GameObject.Find ("Options").GetComponent<Button>();
 		_quit = GameObject.Find ("Quit_Pause").GetComponent<Button> ();
 		
 		_resumeGame.interactable = true;
-		_stats.interactable = true;
-		_options.interactable = true;
 		_quit.interactable = true;
 		
 		_resumeGame.onClick.AddListener (delegate () {
@@ -31,14 +27,6 @@ public class PauseScreen : ScreenBase {
 			_ui.DoFlowEvent(GAME_SCREEN.NONE); 
 			_game.DoFlowEvent(GAME_STATE.IN_GAME);
 			CloseScreen();});
-		_stats.onClick.AddListener (delegate() {
-			_ui.DoFlowEvent(GAME_SCREEN.STATS);
-			_game.DoFlowEvent(GAME_STATE.PAUSED);
-		});
-		_options.onClick.AddListener (delegate () {
-			_ui.DoFlowEvent(GAME_SCREEN.OPTIONS);
-			_game.DoFlowEvent(GAME_STATE.PAUSED);
-		});
 		_quit.onClick.AddListener (delegate () {
 			_ui.DoFlowEvent(GAME_SCREEN.QUIT);
 			_game.DoFlowEvent(GAME_STATE.END);

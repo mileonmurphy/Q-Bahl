@@ -79,6 +79,10 @@ public class PlayerNormalForm : PlayerTransform {
 					Debug.Log ("I punched a dude!");
 					obj.GetComponent<EnemyHealth> ().addDamage (5);
 				}
+
+				if (obj.gameObject.CompareTag ("IceWall")) {
+					obj.gameObject.GetComponent<BreakIceWall> ().SetHit ();
+				}
 			}
 			isCooling1 = true;
 			Invoke ("resetCooling1", cooldown1);
@@ -107,6 +111,10 @@ public class PlayerNormalForm : PlayerTransform {
 					if (obj != null && obj.tag == "Enemy") {
 						Debug.Log ("I normal specialed dudes!");
 						obj.GetComponent<EnemyHealth> ().addDamage (20);
+					}
+
+					if (obj.gameObject.CompareTag ("IceWall")) {
+						obj.gameObject.GetComponent<BreakIceWall> ().SetHit ();
 					}
 				}
 				isCooling3 = true;

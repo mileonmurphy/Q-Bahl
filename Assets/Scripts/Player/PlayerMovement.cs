@@ -23,12 +23,14 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per physics frame
 	void FixedUpdate () {
-		float h = Input.GetAxisRaw ("Horizontal");
+		if (GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.PAUSED) {
+			float h = Input.GetAxisRaw ("Horizontal");
 
-		Move (h);
-		if (isGrounded && Input.GetKeyDown ("space")) {
-			isGrounded = false;
-			Jump ();
+			Move (h);
+			if (isGrounded && Input.GetKeyDown ("space")) {
+				isGrounded = false;
+				Jump ();
+			}
 		}
 	}
 

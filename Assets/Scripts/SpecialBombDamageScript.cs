@@ -18,6 +18,10 @@ public class SpecialBombDamageScript : MonoBehaviour {
 			dmgList.Add (col.gameObject);
 			col.gameObject.GetComponent<EnemyHealth> ().addDamage ((int)Random.Range(50f,100f));
 		}
+
+		if (col.gameObject.CompareTag ("IceWall")) {
+			col.gameObject.GetComponent<BreakIceWall> ().SetHit ();
+		}
 	}
 
 	void AutoDestroy(){

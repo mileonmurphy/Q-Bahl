@@ -20,5 +20,9 @@ public class Fireball_Script : MonoBehaviour {
 			}
 			Destroy (this.gameObject);
 		}
+
+		if (col.gameObject.CompareTag ("IceWall")) {
+			col.GetComponent<BreakIceWall> ().SetHit ();
+		}
 	}
 }

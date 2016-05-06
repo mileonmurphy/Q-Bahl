@@ -23,9 +23,6 @@ public class BreakIceWall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			hit = true;
-		}
 		if (hit) {
 			SpawnShards ();
 			DestroyShards ();
@@ -35,7 +32,7 @@ public class BreakIceWall : MonoBehaviour {
 		}
 	}
 
-	public void IsHit(){
+	public void SetHit(){
 		hit = true;
 	}
 
