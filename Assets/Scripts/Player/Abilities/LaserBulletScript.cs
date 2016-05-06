@@ -20,6 +20,10 @@ public class LaserBulletScript : MonoBehaviour {
 			Destroy (this.gameObject);
 			Instantiate (laserBulletPE, transform.position, transform.rotation);
 		}
+
+		if (col.gameObject.CompareTag ("IceWall")) {
+			col.gameObject.GetComponent<BreakIceWall> ().SetHit ();
+		}
 	}
 
 	void destroySelf () {

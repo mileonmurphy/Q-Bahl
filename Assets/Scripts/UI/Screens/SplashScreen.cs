@@ -16,9 +16,10 @@ public class SplashScreen : ScreenBase {
 	public override void Start()
 	{
 		base.Start ();
-		_playGame = GameObject.Find ("Play_Game").GetComponent<Button>();
-		_credits = GameObject.Find ("Credits").GetComponent<Button>();
-		_quit = GameObject.Find ("Quit").GetComponent<Button>();
+		_playGame =  transform.FindChild ("Play_Game").GetComponent<Button>();
+		if( transform.FindChild("Credits").gameObject != null)
+			_credits = transform.FindChild ("Credits").GetComponent<Button>();
+		_quit = transform.FindChild ("Quit").GetComponent<Button>();
 
 		_playGame.interactable = true;
 		_credits.interactable = true;
@@ -26,7 +27,8 @@ public class SplashScreen : ScreenBase {
 
 		_playGame.onClick.AddListener (delegate () {
 			_ui.DoFlowEvent(GAME_SCREEN.NONE); 
-			_game.DoFlowEvent(GAME_STATE.IN_GAME);});
+			_game.DoFlowEvent(GAME_STATE.IN_GAME);
+		});
 		_credits.onClick.AddListener (delegate() {
 			_ui.DoFlowEvent(GAME_SCREEN.CREDITS);
 			_game.DoFlowEvent(GAME_STATE.CREDITS);

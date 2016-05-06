@@ -16,7 +16,7 @@ public enum GAME_STATE
 
 public class GameManager : MonoBehaviour {
 
-	public GAME_STATE currGameState;
+	GAME_STATE currGameState;
 	Queue _flowQueue;
 
 
@@ -74,5 +74,9 @@ public class GameManager : MonoBehaviour {
 	public void DoFlowEvent(GAME_STATE f)
 	{
 		_flowQueue.Enqueue(f);
+	}
+
+	public GAME_STATE GetCurrGameState(){
+		return currGameState;
 	}
 }
