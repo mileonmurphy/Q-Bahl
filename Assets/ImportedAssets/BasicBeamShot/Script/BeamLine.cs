@@ -6,7 +6,7 @@ public class BeamLine : MonoBehaviour {
 	public float MaxLength = 1.0f;
 	public float StartSize = 1.0f;
 	public float AnimationSpd = 0.1f;
-	public Color BeamColor = Color.white;
+	public Color BeamColor = Color.red;
 
 	private float NowAnm;
 	private LineRenderer line;
@@ -28,7 +28,7 @@ public class BeamLine : MonoBehaviour {
 	{
 		if(!bStop)
 			NowLength = Mathf.Lerp(0,MaxLength,NowAnm);
-		float width = Mathf.Lerp(StartSize,0,NowAnm);
+		float width = Mathf.Lerp(StartSize,0.5f,NowAnm);
 		line.SetWidth(width,width);
 		float length = NowLength;
 		line.SetPosition(0,transform.position);

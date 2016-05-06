@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class PlayerWarpForm : PlayerTransform {
 
-	public GameObject player;
-	public GameObject slowDownBubble;
-	public GameObject speedUpBubble;
+	GameObject player;
+	GameObject slowDownBubble;
+	GameObject speedUpBubble;
 	GameObject currSlowBubble;
 	GameObject currSpeedBubble;
 	BoxCollider slowCol;
@@ -52,6 +52,14 @@ public class PlayerWarpForm : PlayerTransform {
 		isCooling3 = false;
 	}
 
+	void Start () {
+		slowDownBubble = Resources.Load ("Prefabs/Abilities/SlowDownBubble") as GameObject;
+		speedUpBubble = Resources.Load ("Prefabs/Abilities/SpeeedUpBubble") as GameObject;
+//		teleEffect1 = Resources.Load ("Prefabs/Abilities/SpeeedUpBubble") as GameObject;
+//		teleEffect2 = Resources.Load ("Prefabs/Abilities/SpeeedUpBubble") as GameObject;
+
+	}
+
 	public override void Ability1() {
 		Debug.Log ("Warp Ability 1");
 		MakeSpeedUpBubble ();
@@ -70,17 +78,17 @@ public class PlayerWarpForm : PlayerTransform {
 		if (!isCooling3) {
 			for (int i = 0; i < hb.currentCols.Count; i++) {
 				GameObject currCol = hb.currentCols [i].gameObject;
-				if (((new Vector3 (currCol.transform.position.x, currCol.transform.position.y, currCol.transform.position.z) - player.transform.position).normalized * Mathf.Abs ((currCol.transform.position - player.transform.position).magnitude)).magnitude >= 1) {
-					telDir = (new Vector3 (currCol.transform.position.x, currCol.transform.position.y, currCol.transform.position.z) - player.transform.position).normalized * Mathf.Abs ((currCol.transform.position - player.transform.position).magnitude - 5);
+				if (((new Vector3 (currCol.transform.position.x, currCol.transform.position.y, currCol.transform.position.z) - transform.position).normalized * Mathf.Abs ((currCol.transform.position - transform.position).magnitude)).magnitude >= 1) {
+					telDir = (new Vector3 (currCol.transform.position.x, currCol.transform.position.y, currCol.transform.position.z) - transform.position).normalized * Mathf.Abs ((currCol.transform.position - transform.position).magnitude - 5);
 				} else {
 					telDir = new Vector3 (0, 0, 0);
 				}
 			}
 			//checks out, cool start doing stuff
-			telDir = player.transform.position + ((new Vector3(playerAim.mouse_pos.x, playerAim.mouse_pos.y,player.transform.position.z) - player.transform.position).normalized * teleportLength);
+			telDir = transform.position + ((new Vector3(playerAim.mouse_pos.x, playerAim.mouse_pos.y,transform.position.z) - transform.position).normalized * teleportLength);
 			teleEffect1.Play ();
 			teleEffect2.Play ();
-			player.transform.position = new Vector3 (telDir.x, telDir.y, telDir.z);
+			transform.position = new Vector3 (telDir.x, telDir.y, telDir.z);
 			Invoke ("EndTeleParticles", 2f);
 			Invoke ("ResetCooling3", cooldown3);
 			isCooling3 = true;
@@ -117,7 +125,7 @@ public class PlayerWarpForm : PlayerTransform {
 
 	private void DestroySpeedUpBubble(){
 		Destroy (currSpeedBubble);
-		player.GetComponent<PlayerMovement> ().ResetNormal ();
+		GetComponent<PlayerMovement> ().ResetNormal ();
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		for (int i = 0; i < enemies.Length; i++) {
 			if(	enemies [i].GetComponent<AirEnemyMovement> () != null)
@@ -129,7 +137,7 @@ public class PlayerWarpForm : PlayerTransform {
 
 	private void DestroySlowDownBubble(){
 		Destroy (currSlowBubble);
-		player.GetComponent<PlayerMovement> ().ResetNormal ();
+		GetComponent<PlayerMovement> ().ResetNormal ();
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		for (int i = 0; i < enemies.Length; i++) {
 			if(	enemies [i].GetComponent<AirEnemyMovement> () != null)

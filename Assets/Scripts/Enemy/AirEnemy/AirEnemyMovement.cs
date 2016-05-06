@@ -59,20 +59,28 @@ public class AirEnemyMovement : MonoBehaviour {
 		} else {
 			if (attacking == false) {
 				if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
-					transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
+					transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 					transform.Translate (speed * Time.deltaTime, 0, 0);
 				} else {
 					attacking = true;
 				}
 
 				if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
-					transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+					transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
 					transform.Translate (speed * Time.deltaTime, 0, 0);
 				} else {
 					attacking = true;
 				}
 			} else {
 				
+				if (transform.FindChild ("airEnemy2Real") != null) {
+					if (transform.FindChild ("airEnemy2Real") != null) {
+						transform.FindChild ("airEnemy2Real").localRotation = Quaternion.Euler (0, -90, 0);
+					}
+					transform.LookAt (player.transform.position);
+					Vector3 moveTowardDir = (player.transform.position - transform.position).normalized;
+					transform.Translate (moveTowardDir * 1.0f);
+				}
 			}
 		}
 

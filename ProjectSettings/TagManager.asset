@@ -9,6 +9,9 @@ TagManager:
   - Player_Hitbox
   - Shard
   - Enemy
+  - Bullet
+  - Bomb
+  - Kamikaze
   layers:
   - Default
   - TransparentFX
