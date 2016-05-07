@@ -3,8 +3,9 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour, IDamageable<int>, IKillable {
 
-	int startingHealth = 100;
+	public int startingHealth = 100;
 	public int currentHealth;
+    public int currentLives;
 	bool isDead;
 
 	PlayerMovement playerMovement;
@@ -13,6 +14,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable<int>, IKillable {
 		playerMovement = GetComponent<PlayerMovement> ();
 		currentHealth = startingHealth;
 		isDead = false;
+        currentLives = 3;
 	}
 
 	public void TakeDamage(int damageTaken) {
@@ -27,6 +29,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable<int>, IKillable {
 	public void Death() {
 		isDead = true;
 		Debug.Log ("I AMS DEAD");
-		playerMovement.enabled = false;
+		//playerMovement.enabled = false;
+        currentLives--;
+        GameObject.Find("UIManager").GetComponent<UIManager>().died = true;
+        if (currentLives <= 0)
+        {
+            GameObject.Find("UIManager").GetComponent<UIManager>().gameOver = true;
+        }
+        isDead = false;
+        currentHealth = startingHealth;
 	}
 }

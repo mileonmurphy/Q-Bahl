@@ -1,16 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 --- !u!1 &104894
+=======
+--- !u!1 &173418
+>>>>>>> fixed prefab
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   - 4: {fileID: 423494}
   - 114: {fileID: 11451590}
   - 114: {fileID: 11465998}
   - 114: {fileID: 11410584}
+=======
+  - 4: {fileID: 421506}
+  - 114: {fileID: 11486056}
+  - 114: {fileID: 11489834}
+  - 114: {fileID: 11470010}
+>>>>>>> fixed prefab
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -18,36 +29,60 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 --- !u!4 &423494
+=======
+--- !u!4 &421506
+>>>>>>> fixed prefab
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   m_GameObject: {fileID: 104894}
+=======
+  m_GameObject: {fileID: 173418}
+>>>>>>> fixed prefab
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 --- !u!114 &11410584
+=======
+--- !u!114 &11470010
+>>>>>>> fixed prefab
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   m_GameObject: {fileID: 104894}
+=======
+  m_GameObject: {fileID: 173418}
+>>>>>>> fixed prefab
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ForceModuleActive: 0
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 --- !u!114 &11451590
+=======
+--- !u!114 &11486056
+>>>>>>> fixed prefab
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   m_GameObject: {fileID: 104894}
+=======
+  m_GameObject: {fileID: 173418}
+>>>>>>> fixed prefab
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -56,12 +91,20 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 --- !u!114 &11465998
+=======
+--- !u!114 &11489834
+>>>>>>> fixed prefab
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   m_GameObject: {fileID: 104894}
+=======
+  m_GameObject: {fileID: 173418}
+>>>>>>> fixed prefab
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
@@ -83,5 +126,9 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
   m_RootGameObject: {fileID: 104894}
+=======
+  m_RootGameObject: {fileID: 173418}
+>>>>>>> fixed prefab
   m_IsPrefabParent: 1

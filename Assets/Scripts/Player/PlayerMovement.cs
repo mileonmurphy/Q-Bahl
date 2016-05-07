@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per physics frame
 	void FixedUpdate () {
-		if (GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.PAUSED) {
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
+        {
 			float h = Input.GetAxisRaw ("Horizontal");
 
 			Move (h);
