@@ -22,6 +22,10 @@ public class HailStormHailScript : MonoBehaviour {
 				Destroy (this.gameObject);
 			}
 		}
+
+		if (col.gameObject.CompareTag ("IceWall")) {
+			col.gameObject.GetComponent<BreakIceWall> ().SetHit ();
+		}
 	}
 
 	void autoDestroy () {

@@ -29,6 +29,10 @@ public class BeamCollision : MonoBehaviour {
 			if (hit.transform.CompareTag ("Enemy")) {
 				hit.transform.gameObject.GetComponent<EnemyHealth> ().addDamage (25);
 			}
+
+			if (hit.transform.gameObject.CompareTag ("IceWall")) {
+				hit.transform.gameObject.GetComponent<BreakIceWall> ().SetHit ();
+			}
 		}
 	}
 }

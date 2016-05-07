@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GroundEnemyMovement : MonoBehaviour {
 
-	float speed = 5;
+	float speed = 7;
 	float wanderSpeed = 3;
 
 	GameObject player;
@@ -14,14 +14,16 @@ public class GroundEnemyMovement : MonoBehaviour {
 
 	bool wandering;
 	bool wanderRight;
+	bool isSpinning;
 
-	float attackDist = 2.0f;
+	float attackDist = 4.0f;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		wandering = true;
 		wanderRight = true;
+		isSpinning = false;
 		startPos = transform.position;
 		leftPos = Vector3.left * 5;
 		leftPos += startPos;
@@ -56,11 +58,14 @@ public class GroundEnemyMovement : MonoBehaviour {
 			if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
 				transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
 				transform.Translate (speed * Time.deltaTime, 0, 0);
-			}
-
-			if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
+			} else if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
 				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 				transform.Translate (speed * Time.deltaTime, 0, 0);
+			} 
+				
+			if (gameObject.name == "GA1") {
+					SpinningAttack ();
+					isSpinning = true;
 			}
 		}
 	}
@@ -77,5 +82,13 @@ public class GroundEnemyMovement : MonoBehaviour {
 	public void ResetNormal(){
 		speed = 5f;
 		wanderSpeed = 3f;
+	}
+
+	public void SpinningAttack(){
+		transform.FindChild("groundAlien1").transform.Rotate(transform.up, Time.deltaTime* 800f);
+	}
+
+	public bool GetSpinning(){
+		return isSpinning;
 	}
 }

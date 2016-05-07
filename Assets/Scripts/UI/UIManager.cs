@@ -181,4 +181,8 @@ public class UIManager : MonoBehaviour {
 	public void resetPausedCounter(){
 		pausedCounter = 0;
 	}
+
+	public GAME_SCREEN GetCurrGameScreen(){
+		return currGameScreen;
+	}
 }
