@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Update()
 	{
+
 		if (isGrounded && Input.GetButtonDown("Jump") && isJumping == false) {
 			isJumping = true;
 			jumpTimeout = .2f;
@@ -120,8 +121,8 @@ public class PlayerMovement : MonoBehaviour {
 		scaleME.z *= -1;
 		transform.localScale = scaleME;
 		facingRight = !facingRight;
-		non = GameObject.Find ("Arm").transform.localScale;
-		non.z *= -1;
-		GameObject.Find ("Arm").transform.localScale = non;
+		non = GameObject.Find ("PlayerArm").transform.localScale;
+		//non.z *= -1;
+		GameObject.Find ("PlayerArm").transform.localScale = non;
 	}
 }

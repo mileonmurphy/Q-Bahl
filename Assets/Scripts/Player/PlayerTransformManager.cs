@@ -49,11 +49,11 @@ public class PlayerTransformManager : MonoBehaviour {
 
 	void UseAbility () {
 		if (current_form != null) {
-			if (Input.GetButton ("Fire1")) {
+			if (Input.GetMouseButtonDown(0)) {
 				UseAbility1 ();
-			} else if (Input.GetButton ("Fire2")) {
+			} else if (Input.GetMouseButtonDown(1)) {
 				UseAbility2 ();
-			} else if (Input.GetKeyDown (KeyCode.E)) {
+			} else if (Input.GetKeyDown(KeyCode.E)) {
 				UseSpecialAbility ();
 			}
 			;
