@@ -11,6 +11,8 @@ public class MasterHandScript : MonoBehaviour {
 	Vector3 playerPos;
 	Vector3 smashTargetPosition;
 	Vector3 groundPos;
+	Vector3 swipeStartPosition;
+	Vector3 swipeTargetPosition;
 
 	float moveMult;
 	float idleMoveSpeed = 7f;
@@ -19,6 +21,8 @@ public class MasterHandScript : MonoBehaviour {
 	float smashMoveSpeed = 5f;
 	float playerMoveDir;
 	float randTime;
+	float randDist;
+	float randMult;
 	GameObject fingerIndexTip;
 	GameObject fingerMiddleTip;
 	GameObject fingerRingTip;
@@ -33,7 +37,7 @@ public class MasterHandScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		checkForGround ();
-		currState = BossState.IDLE;
+		currState = BossState.RESET_TO_PLAYER;
 		player = (GameObject) GameObject.FindGameObjectWithTag ("Player");
 		playerMoveComp = player.GetComponent<PlayerMovement> ();
 		playerMoveDir = playerMoveComp.movementDir;
@@ -49,7 +53,7 @@ public class MasterHandScript : MonoBehaviour {
 		// Set initial bools
 		closeLaserCooling = false;
 
-		Invoke ("setSmashSearchState", 4);
+		Invoke ("setPreSwipeState", 4);
 
 	}
 	
@@ -75,11 +79,20 @@ public class MasterHandScript : MonoBehaviour {
 		case BossState.SMASH:
 			smashMove ();
 			break;
+		case BossState.PRE_SWIPE:
+			setSwipeRotation ();
+			preSwipe ();
+			break;
+		case BossState.SWIPE:
+			swipe ();
+			break;
 		}
 	}
 
 	/*
+	~~~~~~~~~~~~~~~~~~~~~~
 		LASER MOVES
+	~~~~~~~~~~~~~~~~~~~~~~
 	*/
 
 	void laserClosePlayer () {
@@ -129,7 +142,9 @@ public class MasterHandScript : MonoBehaviour {
 	}
 
 	/*
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		SMASH MOVES
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	*/
 
 	void smashSearch () {
@@ -139,7 +154,6 @@ public class MasterHandScript : MonoBehaviour {
 		smashTargetPosition = playerPos;
 		if (!IsInvoking ("setSmashState")) {
 			randTime = Random.Range (3f, 6f);
-			Debug.Log (randTime);
 			Invoke ("setSmashState", randTime);
 		}
 	}
@@ -155,16 +169,92 @@ public class MasterHandScript : MonoBehaviour {
 	void setSmashRotation () {
 		transform.localRotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (0, 180, 270), Time.deltaTime * smashSearchMoveSpeed);
 	}
+		
+	
+
+	/*
+	~~~~~~~~~~~~~~~~~~~~~~
+		SWIPE MOVE
+	~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+	void preSwipe () {
+		setDistDir ();
+		playerPos = player.transform.position;
+
+		if ((int) Random.Range (0, 2) == 1) {
+			randMult = 1;
+		} else {
+			randMult = -1;
+		}
+
+		if (swipeStartPosition == Vector3.zero) {
+			Debug.Log (randMult);
+			randDist = Random.Range(20f, 25f);
+			swipeStartPosition = new Vector3 (playerPos.x + (randDist * moveMult), playerPos.y + 3f, playerPos.z);
+		}
+
+		randDist = Random.Range(10f, 15f);
+		swipeTargetPosition = new Vector3(playerPos.x - (randDist * moveMult), playerPos.y + 3f, playerPos.z);
+
+		transform.position = Vector3.Lerp(transform.position, swipeStartPosition, Time.deltaTime * smashSearchMoveSpeed);
+		if (!IsInvoking ("setSwipeState")) {
+			randTime = Random.Range (2f, 3f);
+			Invoke ("setSwipeState", randTime);
+		}
+	}
+
+	void swipe () {
+		transform.position = Vector3.Lerp(transform.position, swipeTargetPosition, Time.deltaTime * smashMoveSpeed);
+
+		if (!IsInvoking ("setResetState")) {
+			Invoke ("setResetState", 3);
+		}
+	}
+
+	void setSwipeRotation () {
+			transform.localRotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (90, 180 * moveMult, 0), Time.deltaTime * smashSearchMoveSpeed);
+	}
+
+	/*
+	~~~~~~~~~~~~~~~~~~~~~~
+		Misc Functions
+	~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+	void checkForGround () {
+		hits = Physics.RaycastAll (transform.position, new Vector3 (0, -1, 0), 100f);
+		foreach (RaycastHit hit in hits) {
+			if (hit.transform.CompareTag ("Ground")) {
+				groundPos = hit.transform.position;
+			}
+		}
+	}
 
 	void setIdleRotation () {
 		transform.localRotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (0, 270, 0), Time.deltaTime * idleMoveSpeed);
 	}
 
-		
+
+	/*
+	~~~~~~~~~~~~~~~~~~~~~~
+		Reset Functions
+	~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+	void resetTargetPositions () {
+		swipeTargetPosition = Vector3.zero;
+		swipeStartPosition = Vector3.zero;
+		smashTargetPosition = Vector3.zero;
+		randMult = 0;
+		randDist = 0;
+	}
+
 	void resetToPlayer () {
+		resetTargetPositions ();
 		setDistDir ();
 		playerPos = player.transform.position;
-		transform.position = Vector3.Lerp(transform.position, new Vector3 (playerPos.x + (15f * moveMult), playerPos.y + 10f, playerPos.z), Time.deltaTime * resetMoveSpeed);
+		transform.position = Vector3.Lerp(transform.position, new Vector3 (playerPos.x + (15f * moveMult), playerPos.y + 5f, playerPos.z), Time.deltaTime * resetMoveSpeed);
 		if (!IsInvoking ("setIdleState")) {
 			Invoke ("setIdleState", 4);
 		}
@@ -180,8 +270,11 @@ public class MasterHandScript : MonoBehaviour {
 	}
 
 	/*
+	~~~~~~~~~~~~~~~~~~~~~~
 		STATE SETTERS
+	~~~~~~~~~~~~~~~~~~~~~~
 	*/
+
 	void setResetState () {
 		currState = BossState.RESET_TO_PLAYER;
 	}
@@ -198,13 +291,12 @@ public class MasterHandScript : MonoBehaviour {
 		currState = BossState.SMASH;
 	}
 
-	void checkForGround () {
-		hits = Physics.RaycastAll (transform.position, new Vector3 (0, -1, 0), 100f);
-		foreach (RaycastHit hit in hits) {
-			if (hit.transform.CompareTag ("Ground")) {
-				groundPos = hit.transform.position;
-			}
-		}
+	void setPreSwipeState () {
+		currState = BossState.PRE_SWIPE;
+	}
+
+	void setSwipeState () {
+		currState = BossState.SWIPE;
 	}
 
 	public BossState getCurrState () {
@@ -216,6 +308,8 @@ public class MasterHandScript : MonoBehaviour {
 		RESET_TO_PLAYER,
 		SMASH_SEARCH,
 		SMASH,
+		PRE_SWIPE,
+		SWIPE,
 		ATTACKING
 	}
 }
