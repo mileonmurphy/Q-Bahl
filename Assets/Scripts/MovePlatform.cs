@@ -14,6 +14,7 @@ public class MovePlatform : MonoBehaviour {
 	{
 		if (other.gameObject.CompareTag ("Player") && stopped == false) {
 			movePlat = true;
+			other.gameObject.transform.parent = gameObject.transform;
 		}
 	}
 	// Use this for initialization

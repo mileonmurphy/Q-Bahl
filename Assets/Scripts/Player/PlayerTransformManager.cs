@@ -10,6 +10,7 @@ public class PlayerTransformManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		current_form = GetComponent<PlayerNormalForm> ();
 		transform_dict = new Dictionary<int, PlayerTransform> ();
 		transform_dict.Add (1, GetComponent<PlayerNormalForm> ());
 		transform_dict.Add (2, GetComponent<PlayerWarpForm> ());
@@ -49,33 +50,15 @@ public class PlayerTransformManager : MonoBehaviour {
 
 	void UseAbility () {
 		if (current_form != null) {
-<<<<<<< 8b4892e1d12559224060ac36d27f4d6ec257c9d9
-            if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
-            {
-                if (Input.GetButton("Fire1"))
-                {
-                    UseAbility1();
-                }
-                else if (Input.GetButton("Fire2"))
-                {
-                    UseAbility2();
-                }
-                else if (Input.GetKeyDown(KeyCode.E))
-                {
-                    UseSpecialAbility();
-                }
-            }
-=======
-			if (Input.GetMouseButtonDown(0)) {
-				UseAbility1 ();
-			} else if (Input.GetMouseButtonDown(1)) {
-				UseAbility2 ();
-			} else if (Input.GetKeyDown(KeyCode.E)) {
-				UseSpecialAbility ();
+			if (GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState () != GAME_STATE.START_MENU && GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState () != GAME_STATE.PAUSED && !GameObject.Find ("UIManager").GetComponent<UIManager> ().GetPaused ()) {
+				if (Input.GetButton ("Fire1")) {
+					UseAbility1 ();
+				} else if (Input.GetButton ("Fire2")) {
+					UseAbility2 ();
+				} else if (Input.GetKeyDown (KeyCode.E)) {
+					UseSpecialAbility ();
+				}
 			}
->>>>>>> floriwfewf
-			;
-		} else {
 
 		}
 	}

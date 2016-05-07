@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 	private bool isGrounded = false;
 	public bool isJumping = false;
 	public float jumpTimeout = 0;
+	public float h;
 	public static bool facingRight = true;
 
 	//public Transform groundCheck;
@@ -21,6 +22,8 @@ public class PlayerMovement : MonoBehaviour {
 	RaycastHit hit;
 	Vector3 rayDir = new Vector3 (0f, -1f, 0f);
 	float rayDist = 0.8f;
+	public int movementDir;
+
 
 
 
@@ -43,7 +46,8 @@ public class PlayerMovement : MonoBehaviour {
 
 
 		if (GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.PAUSED) {
-			float h = Input.GetAxis ("Horizontal");
+	        h = Input.GetAxis ("Horizontal");
+			movementDir = (int)h;
 			playerAnim.SetFloat ("Speed", Mathf.Abs (h));
 
 			if (h > 0 && !facingRight) {
@@ -83,6 +87,7 @@ public class PlayerMovement : MonoBehaviour {
 			jumpTimeout = .2f;
 
 		} 
+			
 		//playerAnim.SetBool ("Jumping", isJumping);
 
 	}
@@ -103,7 +108,11 @@ public class PlayerMovement : MonoBehaviour {
 //	}
 		
 	void OnCollisionEnter(Collision other) {
-
+//		if (other.gameObject.CompareTag("MovingPlat")) {
+//			playerRigidbody.isKinematic = true;
+//			gameObject.transform.SetParent (other.transform);
+//		}
+//
 	}
 
 	public void ChangeSpeed(float num){
