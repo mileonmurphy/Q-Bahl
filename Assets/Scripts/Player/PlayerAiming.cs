@@ -4,10 +4,10 @@ using System.Collections;
 public class PlayerAiming : MonoBehaviour {
 	public GameObject playerArm;
 
-	Vector3 mouse_pos;
+	public Vector3 mouse_pos;
 	Vector3 arm_pos;
-	private float turn_angle;
-    private bool looking_right;
+	public float turn_angle;
+    public bool looking_right;
 
     void Awake () {
         looking_right = true;

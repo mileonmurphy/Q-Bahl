@@ -9,6 +9,11 @@ public class PlayerMovement : MonoBehaviour {
 
 	Vector3 movement;
 	Rigidbody playerRigidbody;
+	RaycastHit hit;
+	Vector3 rayDir = new Vector3 (0f, -1f, 0f);
+	float rayDist = 0.8f;
+
+
 
 	// Use this for initialization
 	void Awake () {
@@ -18,12 +23,14 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per physics frame
 	void FixedUpdate () {
-		float h = Input.GetAxisRaw ("Horizontal");
+		if (GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find ("GameManager").GetComponent<GameManager> ().GetCurrGameState() != GAME_STATE.PAUSED) {
+			float h = Input.GetAxisRaw ("Horizontal");
 
-		Move (h);
-		if (isGrounded && Input.GetKeyDown ("space")) {
-			isGrounded = false;
-			Jump ();
+			Move (h);
+			if (isGrounded && Input.GetKeyDown ("space")) {
+				isGrounded = false;
+				Jump ();
+			}
 		}
 	}
 
@@ -38,8 +45,16 @@ public class PlayerMovement : MonoBehaviour {
 	}
 		
 	void OnCollisionEnter(Collision other) {
-		if (other.gameObject.CompareTag ("Ground")) {
+		if (Physics.Raycast (transform.position, rayDir, out hit, rayDist)) {
 			isGrounded = true;
 		}
+	}
+
+	public void ChangeSpeed(float num){
+		speed *= num;
+	}
+
+	public void ResetNormal(){
+		speed = 8f;
 	}
 }

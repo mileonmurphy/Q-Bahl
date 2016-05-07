@@ -13,6 +13,8 @@ public class PlayerTransformManager : MonoBehaviour {
 		transform_dict = new Dictionary<int, PlayerTransform> ();
 		transform_dict.Add (1, GetComponent<PlayerNormalForm> ());
 		transform_dict.Add (2, GetComponent<PlayerWarpForm> ());
+		transform_dict.Add (3, GetComponent<PlayerRangedForm> ());
+		transform_dict.Add (4, GetComponent<PlayerElementalForm> ());
 		ChangePlayerForm (1);
 	}
 
@@ -27,6 +29,12 @@ public class PlayerTransformManager : MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.Alpha2) && current_form != transform_dict[2]) {
 			ChangePlayerForm (2);
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha3) && current_form != transform_dict[3]) {
+			ChangePlayerForm (3);
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha4) && current_form != transform_dict[4]) {
+			ChangePlayerForm (4);
 		}
 	}
 

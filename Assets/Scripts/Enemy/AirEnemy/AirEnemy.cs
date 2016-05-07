@@ -5,7 +5,7 @@ using System.Collections;
 //Reminds developer to not delete the CharController comp. 
 [RequireComponent(typeof(Rigidbody))]
 
-abstract public class AirEnemy : MonoBehaviour {
+public class AirEnemy : MonoBehaviour {
 	
 	//fields
 	public int health;
@@ -26,7 +26,8 @@ abstract public class AirEnemy : MonoBehaviour {
 	protected Rigidbody rigid;
 	
 	//every child class must implement this method
-	abstract protected void CalcSteeringForces();
+	protected virtual void CalcSteeringForces (){
+	}
 	
 	//property for velocity
 	public Vector3 Velocity {

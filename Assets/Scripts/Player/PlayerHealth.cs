@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable {
+public class PlayerHealth : MonoBehaviour, IDamageable<int>, IKillable {
 
-	float startingHealth = 100f;
-	float currentHealth;
+	int startingHealth = 100;
+	public int currentHealth;
 	bool isDead;
 
 	PlayerMovement playerMovement;
@@ -15,9 +15,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable {
 		isDead = false;
 	}
 
-	public void TakeDamage(float damageTaken) {
-		currentHealth -= damageTaken;
-
+	public void TakeDamage(int damageTaken) {
+        if (!isDead) {
+            currentHealth -= damageTaken;
+        }
 		if (currentHealth <= 0 && !isDead) {
 			Death ();
 		}
