@@ -39,13 +39,13 @@ public class Cooldown2Time : MonoBehaviour
         {
             if (!player.GetComponent<PlayerNormalForm>().getCooling2())
             {
-                GetComponent<Text>().text = normalForm.getCooling2Time() + "";
+                GetComponent<Text>().text =  "Ready";
                 cooldown2Normal = 0;
             }
             else
             {
                 Invoke("cooldown2NormalStart", 0);
-                GetComponent<Text>().text = System.Math.Round(normalForm.getCooling2Time() - cooldown2Normal, 2) + "";
+                GetComponent<Text>().text =  "Cooling";
                 if (normalForm.getCooling2Time() - cooldown2Normal <= 0)
                 {
                     cooldown2Normal = 0;
@@ -55,17 +55,58 @@ public class Cooldown2Time : MonoBehaviour
 
         if (currForm == player.GetComponent<PlayerTransformManager>().transform_dict[2])
         {
-            GetComponent<Text>().text = warpForm.getCooling2Time() + "";
+            if (!player.GetComponent<PlayerWarpForm>().getCooling2())
+            {
+                GetComponent<Text>().text = "Ready";
+                cooldown2Warp = 0;
+            }
+            else
+            {
+                Invoke("cooldown2WarpStart", 0);
+                GetComponent<Text>().text = "Cooling";
+                if (warpForm.getCooling2Time() - cooldown2Warp <= 0)
+                {
+                    cooldown2Warp = 0;
+                    CancelInvoke("cooldown2WarpIncrement");
+                }
+            }
         }
 
         if (currForm == player.GetComponent<PlayerTransformManager>().transform_dict[3])
         {
-            GetComponent<Text>().text = rangedForm.getCooling2Time() + "";
+            if (!player.GetComponent<PlayerRangedForm>().getCooling2())
+            {
+                GetComponent<Text>().text = "Ready";
+                cooldown2Ranged = 0;
+            }
+            else
+            {
+                Invoke("cooldown2RangedStart", 0);
+                GetComponent<Text>().text = "Cooling";
+                if (rangedForm.getCooling2Time() - cooldown2Ranged <= 0)
+                {
+                    cooldown2Ranged = 0;
+                }
+            }
         }
 
         if (currForm == player.GetComponent<PlayerTransformManager>().transform_dict[4])
         {
-            GetComponent<Text>().text = elementalForm.getCooling2Time() + "";
+            if (!player.GetComponent<PlayerElementalForm>().getCooling2())
+            {
+                GetComponent<Text>().text = "Ready";
+                cooldown2Elemental = 0;
+            }
+            else
+            {
+                Invoke("cooldown2ElementalStart", 0);
+                GetComponent<Text>().text = "Cooling";
+                if (elementalForm.getCooling2Time() - cooldown2Elemental <= 0)
+                {
+                    cooldown2Elemental = 0;
+                    CancelInvoke("cooldown2ElementalIncrement");
+                }
+            }
         }
     }
     void cooldown2NormalStart()
@@ -76,6 +117,36 @@ public class Cooldown2Time : MonoBehaviour
     void cooldown2NormalIncrement()
     {
         cooldown2Normal += 0.01f;
+    }
+
+    void cooldown2WarpStart()
+    {
+        InvokeRepeating("cooldown2WarpIncrement", 0, 0.01f);
+    }
+
+    void cooldown2WarpIncrement()
+    {
+        cooldown2Warp += 0.01f;
+    }
+
+    void cooldown2ElementalStart()
+    {
+        InvokeRepeating("cooldown2ElementalIncrement", 0, 0.01f);
+    }
+
+    void cooldown2ElementalIncrement()
+    {
+        cooldown2Elemental += 0.01f;
+    }
+
+    void cooldown2RangedStart()
+    {
+        InvokeRepeating("cooldown2RangedIncrement", 0, 0.01f);
+    }
+
+    void cooldown2RangedIncrement()
+    {
+        cooldown2Ranged += 0.01f;
     }
 
 }

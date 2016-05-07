@@ -132,4 +132,9 @@ public class PlayerElementalForm : PlayerTransform {
         return isCooling2;
     }
 
+    public bool getCooling3()
+    {
+        return isCooling3;
+    }
+
 }

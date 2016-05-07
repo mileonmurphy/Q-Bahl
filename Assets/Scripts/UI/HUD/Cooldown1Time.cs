@@ -36,13 +36,13 @@ public class Cooldown1Time : MonoBehaviour {
         {
             if (!player.GetComponent<PlayerNormalForm>().getCooling1())
             {
-                GetComponent<Text>().text = normalForm.getCooling1Time() + "";
+                GetComponent<Text>().text = "Ready";
                 cooldown1Normal = 0;
             }
             else
             {
                 Invoke("cooldown1NormalStart", 0);
-                GetComponent<Text>().text = System.Math.Round(normalForm.getCooling1Time() - cooldown1Normal, 2) + "";
+                GetComponent<Text>().text = "Cooling";
                 if (normalForm.getCooling1Time() - cooldown1Normal <= 0)
                 {
                     cooldown1Normal = 0;
@@ -54,16 +54,17 @@ public class Cooldown1Time : MonoBehaviour {
         {
             if (!player.GetComponent<PlayerWarpForm>().getCooling1())
             {
-                GetComponent<Text>().text = warpForm.getCooling1Time() + "";
+                GetComponent<Text>().text = "Ready";
                 cooldown1Warp = 0;
             }
             else
             {
-                Invoke("cooldown2WarpStart", 0);
-                GetComponent<Text>().text = System.Math.Round(warpForm.getCooling1Time() - cooldown1Warp, 2) + "";
+                Invoke("cooldown1WarpStart", 0);
+                GetComponent<Text>().text = "Cooling";
                 if (warpForm.getCooling1Time() - cooldown1Warp <= 0)
                 {
                     cooldown1Warp = 0;
+                    CancelInvoke("cooldown1WarpIncrement");
                 }
             }
         }
@@ -72,13 +73,13 @@ public class Cooldown1Time : MonoBehaviour {
         {
             if (!player.GetComponent<PlayerRangedForm>().getCooling1())
             {
-                GetComponent<Text>().text = rangedForm.getCooling1Time() + "";
+                GetComponent<Text>().text = "Ready";
                 cooldown1Ranged = 0;
             }
             else
             {
                 Invoke("cooldown1RangedStart", 0);
-                GetComponent<Text>().text = System.Math.Round(rangedForm.getCooling2Time() - cooldown1Ranged, 2) + "";
+                GetComponent<Text>().text = "Cooling";
                 if (rangedForm.getCooling1Time() - cooldown1Ranged <= 0)
                 {
                     cooldown1Ranged = 0;
@@ -90,16 +91,17 @@ public class Cooldown1Time : MonoBehaviour {
         {
             if (!player.GetComponent<PlayerElementalForm>().getCooling1())
             {
-                GetComponent<Text>().text = elementalForm.getCooling1Time() + "";
+                GetComponent<Text>().text = "Ready";
                 cooldown1Elemental = 0;
             }
             else
             {
                 Invoke("cooldown1ElementalStart", 0);
-                GetComponent<Text>().text = System.Math.Round(elementalForm.getCooling1Time() - cooldown1Elemental, 2) + "";
+                GetComponent<Text>().text = "Cooling";
                 if (elementalForm.getCooling1Time() - cooldown1Elemental <= 0)
                 {
                     cooldown1Elemental = 0;
+                    CancelInvoke("cooldown1ElementalIncrement");
                 }
             }
         }

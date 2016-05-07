@@ -46,12 +46,19 @@ public class PlayerNormalForm : PlayerTransform {
 		switch (currentAbilityState) {
 
 		case AbilityState.DASHING:
-			foreach (GameObject obj in meleeBox.GetComponent<MeleeHitBox> ().currentCols) {
+			for (int i= 0; i < meleeBox.GetComponent<MeleeHitBox> ().currentCols.Count; i++) {
+                GameObject obj = meleeBox.GetComponent<MeleeHitBox>().currentCols[i];
 				if (obj != null && obj.tag == "Enemy" & !dashHitList.Contains (obj)) {
 					Debug.Log ("I dashed a dude!");
 					obj.GetComponent<EnemyHealth> ().addDamage (5);
 					dashHitList.Add (obj);
 				}
+                if (obj != null & obj.tag == "IceWall")
+                {
+                    if(obj.GetComponent<BreakIceWall>() != null)
+                     obj.GetComponent<BreakIceWall>().SetHit();
+                    meleeBox.GetComponent<MeleeHitBox>().currentCols.Remove(obj);
+                }
 			}
 			break;
 		}
