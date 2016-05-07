@@ -14,7 +14,7 @@ public class MasterHandScript : MonoBehaviour {
 	Vector3 swipeStartPosition;
 	Vector3 swipeTargetPosition;
 
-	float moveMult;
+	public float moveMult;
 	float idleMoveSpeed = 7f;
 	float resetMoveSpeed = 1f;
 	float smashSearchMoveSpeed = 2f;
@@ -23,6 +23,7 @@ public class MasterHandScript : MonoBehaviour {
 	float randTime;
 	float randDist;
 	float randMult;
+	int randMoveSelect;
 	GameObject fingerIndexTip;
 	GameObject fingerMiddleTip;
 	GameObject fingerRingTip;
@@ -52,9 +53,6 @@ public class MasterHandScript : MonoBehaviour {
 
 		// Set initial bools
 		closeLaserCooling = false;
-
-		Invoke ("setPreSwipeState", 4);
-
 	}
 	
 	// Update is called once per frame
@@ -63,6 +61,7 @@ public class MasterHandScript : MonoBehaviour {
 		// States Machine
 		switch (currState) {
 		case BossState.IDLE:
+			idling ();
 			transform.LookAt (player.transform.position);
 			laserClosePlayer ();
 			break;
@@ -70,7 +69,7 @@ public class MasterHandScript : MonoBehaviour {
 			transform.LookAt (player.transform.position);
 			resetToPlayer ();
 			break;
-		case BossState.ATTACKING:
+		case BossState.LASERS:
 			break;
 		case BossState.SMASH_SEARCH:
 			setSmashRotation ();
@@ -85,6 +84,35 @@ public class MasterHandScript : MonoBehaviour {
 			break;
 		case BossState.SWIPE:
 			swipe ();
+			break;
+		}
+	}
+
+
+	/*
+	~~~~~~~~~~~~~~~~~~~~~~
+		IDLE SELECT MOVE
+	~~~~~~~~~~~~~~~~~~~~~~
+	*/
+
+	void idling () {
+		if (!IsInvoking ("selectMove")) {
+			randTime = Random.Range (2f, 5f);
+			Invoke ("selectMove", randTime);
+		}
+	}
+
+	void selectMove () {
+		randMoveSelect = (int) Random.Range (0, 2);
+		switch (randMoveSelect) {
+		case 0:
+			setSmashSearchState ();
+			break;
+		case 1:
+			setPreSwipeState ();
+			break;
+		case 2:
+			setLasersState ();
 			break;
 		}
 	}
@@ -105,7 +133,7 @@ public class MasterHandScript : MonoBehaviour {
 			}
 		}
 	}
-
+		
 	public void shootLazer(GameObject lazerSource)
 	{
 		setDistDir ();
@@ -135,6 +163,18 @@ public class MasterHandScript : MonoBehaviour {
 
 	void fireMiddleLaser () {
 		shootLazer (transform.FindChild ("FingerMiddleTip").gameObject);
+	}
+
+	void fireIndexLaser () {
+		shootLazer (transform.FindChild ("FingerIndexTip").gameObject);
+	}
+
+	void fireRingLaser () {
+		shootLazer (transform.FindChild ("FingerRingTip").gameObject);
+	}
+
+	void firePinkyLaser () {
+		shootLazer (transform.FindChild ("FingerPinkyTip").gameObject);
 	}
 
 	void resetCoolingCloseLaser () {
@@ -299,6 +339,10 @@ public class MasterHandScript : MonoBehaviour {
 		currState = BossState.SWIPE;
 	}
 
+	void setLasersState () {
+		currState = BossState.LASERS;
+	}
+
 	public BossState getCurrState () {
 		return currState;
 	}
@@ -310,6 +354,6 @@ public class MasterHandScript : MonoBehaviour {
 		SMASH,
 		PRE_SWIPE,
 		SWIPE,
-		ATTACKING
+		LASERS
 	}
 }
