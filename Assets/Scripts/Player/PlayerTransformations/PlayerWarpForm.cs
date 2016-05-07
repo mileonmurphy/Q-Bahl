@@ -159,4 +159,34 @@ public class PlayerWarpForm : PlayerTransform {
 		isCooling3 = false;
 	}
 
+    public float getCooling1Time()
+    {
+        return cooldown1;
+    }
+
+    public float getCooling2Time()
+    {
+        return cooldown2;
+    }
+
+    public float getCooling3Time()
+    {
+        return cooldown3;
+    }
+
+    public bool getCooling3()
+    {
+        return isCooling3;
+    }
+
+    public bool getCooling1()
+    {
+        return isCooling1;
+    }
+
+    public bool getCooling2()
+    {
+        return isCooling2;
+    }
+
 }

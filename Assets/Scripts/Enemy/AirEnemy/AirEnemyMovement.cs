@@ -45,89 +45,118 @@ public class AirEnemyMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.position = new Vector3(transform.position.x, amplitude/100 * Mathf.Sin(wanderSpeed * Time.time) + transform.position.y, transform.position.z);
-		if ((transform.position - player.transform.position).magnitude < 15.0f) {
-			wandering = false;
-		} else {
-			wandering = true;
-		}
 
-		if (wandering) {
-			if (wanderRight) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
-				transform.Translate (-wanderSpeed * Time.deltaTime, 0, 0);
-				if ((transform.position - rightPos).magnitude < 1.0f) {
-					SwitchWander ();
-				}
-			} else {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
-				transform.Translate (-wanderSpeed * Time.deltaTime, 0, 0);
-				if ((transform.position - leftPos).magnitude < 1.0f) {
-					SwitchWander ();
-				}
-			}
-		} else {
-			if (attacking == false) {
-				if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
-					transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
-					transform.Translate (speed * Time.deltaTime, 0, 0);
-				} else {
-					attacking = true;
-				}
+        //paused game
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
+        {
+            if ((transform.position - player.transform.position).magnitude < 15.0f)
+            {
+                wandering = false;
+            }
+            else
+            {
+                wandering = true;
+            }
 
-				if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
-					transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
-					transform.Translate (speed * Time.deltaTime, 0, 0);
-				} else {
-					attacking = true;
-				}
-			} else {
-				
-				if (transform.FindChild ("airEnemy2Real") != null) {
-					transform.FindChild ("airEnemy2Real").localRotation = Quaternion.Euler (0, -90, 0);
-					transform.LookAt (player.transform.position);
-					Vector3 moveTowardDir = (player.transform.position - transform.position).normalized;
-					transform.Translate (moveTowardDir * 1.0f);
-				}
-                if (transform.FindChild("airEnemy1") != null)
+            if (wandering)
+            {
+                if (wanderRight)
                 {
-                    if (player.transform.position.x > transform.position.x)
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    transform.Translate(-wanderSpeed * Time.deltaTime, 0, 0);
+                    if ((transform.position - rightPos).magnitude < 1.0f)
                     {
-                        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                        SwitchWander();
+                    }
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    transform.Translate(-wanderSpeed * Time.deltaTime, 0, 0);
+                    if ((transform.position - leftPos).magnitude < 1.0f)
+                    {
+                        SwitchWander();
+                    }
+                }
+            }
+            else
+            {
+                if (attacking == false)
+                {
+                    if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist)
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                        transform.Translate(speed * Time.deltaTime, 0, 0);
                     }
                     else
                     {
-                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                        attacking = true;
                     }
-                    if (!isCoolingLazer)
+
+                    if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x)
                     {
-                       // Vector3 laserDir = (player.transform.position - transform.FindChild("LazerFireLoc").transform.position);
-                        
-                        isCoolingLazer = true;
-                        Invoke("shootLazer", 1);
-                        Invoke("resetCoolingLazer", 5);
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                        transform.Translate(speed * Time.deltaTime, 0, 0);
                     }
-                    if (GetComponent<LineRenderer>() != null)
+                    else
                     {
-                        GetComponent<LineRenderer>().SetPosition(0, transform.FindChild("LazerFireLoc").transform.position);
-                        GetComponent<LineRenderer>().SetPosition(1, player.transform.position);
+                        attacking = true;
                     }
                 }
-			}
-		}
+                else
+                {
 
-		for (int i = 0; i < groundObjs.Length; i++) {
-			GameObject currGround = groundObjs [i];
+                    if (transform.FindChild("airEnemy2Real") != null)
+                    {
+                        transform.FindChild("airEnemy2Real").localRotation = Quaternion.Euler(0, -90, 0);
+                        transform.LookAt(player.transform.position);
+                        Vector3 moveTowardDir = (player.transform.position - transform.position).normalized;
+                        transform.Translate(moveTowardDir * 1.0f);
+                    }
+                    if (transform.FindChild("airEnemy1") != null)
+                    {
+                        if (player.transform.position.x > transform.position.x)
+                        {
+                            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                        }
+                        else
+                        {
+                            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                        }
+                        if (!isCoolingLazer)
+                        {
+                            // Vector3 laserDir = (player.transform.position - transform.FindChild("LazerFireLoc").transform.position);
 
-			if (transform.position.y > currGround.transform.position.y) {
-				if ((transform.position - currGround.transform.position).magnitude < 5.0f) {
-					transform.Translate (0, wanderSpeed * Time.deltaTime, 0);
-				}
-			}
-		}
+                            isCoolingLazer = true;
+                            Invoke("shootLazer", 1);
+                            Invoke("resetCoolingLazer", 5);
+                        }
+                        if (GetComponent<LineRenderer>() != null)
+                        {
+                            GetComponent<LineRenderer>().SetPosition(0, transform.FindChild("LazerFireLoc").transform.position);
+                            GetComponent<LineRenderer>().SetPosition(1, player.transform.position);
+                        }
+                    }
+                }
+            }
 
-		//zero out the z
-		Vector3 tempPos = new Vector3(this.transform.position.x,this.transform.position.y,startPos.z);
-		this.transform.position = tempPos;
+            for (int i = 0; i < groundObjs.Length; i++)
+            {
+                GameObject currGround = groundObjs[i];
+
+                if (transform.position.y > currGround.transform.position.y)
+                {
+                    if ((transform.position - currGround.transform.position).magnitude < 5.0f)
+                    {
+                        transform.Translate(0, wanderSpeed * Time.deltaTime, 0);
+                    }
+                }
+            }
+
+            //zero out the z
+            Vector3 tempPos = new Vector3(this.transform.position.x, this.transform.position.y, startPos.z);
+            this.transform.position = tempPos;
+        }
 	}
 
 	void SwitchWander(){

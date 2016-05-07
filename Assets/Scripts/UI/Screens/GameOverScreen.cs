@@ -21,17 +21,17 @@ public class GameOverScreen : ScreenBase {
 		_playGame.interactable = true;
 		_credits.interactable = true;
 		_quit.interactable = true;
-		
-		_playGame.onClick.AddListener (delegate () {
-			_ui.DoFlowEvent(GAME_SCREEN.SPLASH_SCREEN); 
-			_game.DoFlowEvent(GAME_STATE.START_MENU);});
+
+        _playGame.onClick.AddListener(delegate()
+        {
+            _ui.restart = true;
+        });
 		_credits.onClick.AddListener (delegate() {
+            _ui.credits = true;
 			_ui.DoFlowEvent(GAME_SCREEN.CREDITS);
-			_game.DoFlowEvent(GAME_STATE.PAUSED);
 		});
 		_quit.onClick.AddListener (delegate () {
 			_ui.DoFlowEvent(GAME_SCREEN.QUIT);
-			_game.DoFlowEvent(GAME_STATE.END);
 		});
 		
 	}

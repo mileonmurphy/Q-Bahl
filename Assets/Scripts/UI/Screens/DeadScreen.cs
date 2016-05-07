@@ -19,10 +19,11 @@ public class DeadScreen : ScreenBase {
 		
 		_restart.interactable = true;
 		_quit.interactable = true;
-		
-		_restart.onClick.AddListener (delegate () {
-			_ui.DoFlowEvent(GAME_SCREEN.LOADING); 
-			_game.DoFlowEvent(GAME_STATE.RESTART_LEVEL);});
+
+        _restart.onClick.AddListener(delegate()
+        {
+            _ui.DoFlowEvent(GAME_SCREEN.NONE);
+        });
 		_quit.onClick.AddListener (delegate () {
 			_ui.DoFlowEvent(GAME_SCREEN.QUIT);
 			_game.DoFlowEvent(GAME_STATE.END);

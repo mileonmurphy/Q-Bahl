@@ -29,6 +29,10 @@ public class UIManager : MonoBehaviour {
 	Queue _flowQueue;
 	bool paused = false;
 	int pausedCounter = 0;
+    public bool died;
+    public bool gameOver;
+    public bool restart;
+    public bool credits;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +44,8 @@ public class UIManager : MonoBehaviour {
 		loadResources ();
 		_flowQueue = new Queue();
 		DoFlowEvent (GAME_SCREEN.SPLASH_SCREEN);
+        restart = false;
+        credits = false;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +58,33 @@ public class UIManager : MonoBehaviour {
 			}
 		}
 
+        if (died == true)
+        {
+            changeScreenTo("DeadScreen");
+            GameObject.FindGameObjectWithTag("Player").transform.position = GameObject.Find("PlayerRespawnPosition").transform.position;
+            died = false;
+        }
+
+        if (gameOver == true)
+        {
+            changeScreenTo("GameOverScreen");
+            gameOver = false;
+        }
+
+        if (restart == true)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().currentLives = 3;
+            changeScreenTo("SplashScreen");
+            restart = false;
+        }
+
+        if (credits == true)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().currentLives = 3;
+            changeScreenTo("CreditsScreen");
+            credits = false;
+        }
+
 		//Clear flow queue
 		while (_flowQueue.Count > 0)
 		{
@@ -59,27 +92,34 @@ public class UIManager : MonoBehaviour {
 			{
 				case GAME_SCREEN.SPLASH_SCREEN:
 					changeScreenTo("SplashScreen");
+                    paused = true;
 					break;
 				case GAME_SCREEN.PAUSE_SCREEN:
 					changeScreenTo("PauseScreen");
+                    paused = true;
 					break;
 				case GAME_SCREEN.DIED:
 					changeScreenTo("DeadScreen");
+                    paused = true;
 					break;
 				case GAME_SCREEN.CREDITS:
 					changeScreenTo("Credits");
+                    paused = false;
 					break;
 				case GAME_SCREEN.LOADING:
 					changeScreenTo("Loading");
+                    paused = false;
 					break;
 				case GAME_SCREEN.GAMEOVER_SCREEN:
 					changeScreenTo("GameOverScreen");
+                    paused = true;
 					break;
 				case GAME_SCREEN.QUIT:
 					Application.Quit();
 					break;
 				case GAME_SCREEN.NONE:
 					changeScreenTo("None");
+                    paused = false;
 					break;
 			default:
 				break;
@@ -185,4 +225,9 @@ public class UIManager : MonoBehaviour {
 	public GAME_SCREEN GetCurrGameScreen(){
 		return currGameScreen;
 	}
+
+    public bool GetPaused()
+    {
+        return paused;
+    }
 }

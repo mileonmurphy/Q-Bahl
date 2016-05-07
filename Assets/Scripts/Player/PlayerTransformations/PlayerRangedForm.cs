@@ -29,6 +29,9 @@ public class PlayerRangedForm : PlayerTransform {
 		playerArm = transform.FindChild ("PlayerArm");
 		transform_name = "Ranged";
 		transform_description = "I'm over here.";
+        cooldown1 = 0.1f;
+        cooldown2 = 5f;
+        cooldown3 = 15f;
 	}
 	
 	public override void Ability1() {
@@ -91,5 +94,35 @@ public class PlayerRangedForm : PlayerTransform {
 	private void resetCooling3 () {
 		isCooling3 = false;
 	}
+
+    public float getCooling1Time()
+    {
+        return cooldown1;
+    }
+
+    public float getCooling2Time()
+    {
+        return cooldown2;
+    }
+
+    public float getCooling3Time()
+    {
+        return cooldown3;
+    }
+
+    public bool getCooling3()
+    {
+        return isCooling3;
+    }
+
+    public bool getCooling1()
+    {
+        return isCooling1;
+    }
+
+    public bool getCooling2()
+    {
+        return isCooling2;
+    }
 
 }

@@ -6,7 +6,7 @@ public class PlayerTransformManager : MonoBehaviour {
 	// Holds the player's transformation forms
 	public Dictionary<int, PlayerTransform> transform_dict;
 
-	PlayerTransform current_form;
+	public PlayerTransform current_form;
 
 	// Use this for initialization
 	void Awake () {
@@ -49,13 +49,21 @@ public class PlayerTransformManager : MonoBehaviour {
 
 	void UseAbility () {
 		if (current_form != null) {
-			if (Input.GetButton ("Fire1")) {
-				UseAbility1 ();
-			} else if (Input.GetButton ("Fire2")) {
-				UseAbility2 ();
-			} else if (Input.GetKeyDown (KeyCode.E)) {
-				UseSpecialAbility ();
-			}
+            if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
+            {
+                if (Input.GetButton("Fire1"))
+                {
+                    UseAbility1();
+                }
+                else if (Input.GetButton("Fire2"))
+                {
+                    UseAbility2();
+                }
+                else if (Input.GetKeyDown(KeyCode.E))
+                {
+                    UseSpecialAbility();
+                }
+            }
 			;
 		} else {
 

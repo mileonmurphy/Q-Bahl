@@ -33,41 +33,61 @@ public class GroundEnemyMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if ((transform.position - player.transform.position).magnitude < 10) {
-			wandering = false;
-		} else {
-			wandering = true;
-		}
+        //paused
 
-		if (wandering) {
-			if (wanderRight) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
-				transform.Translate (-wanderSpeed * Time.deltaTime, 0, 0);
-				if ((transform.position - rightPos).magnitude < 1.0f) {
-					SwitchWander ();
-				}
-			} else {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
-				transform.Translate (-wanderSpeed * Time.deltaTime, 0, 0);
-				if ((transform.position - leftPos).magnitude < 1.0f) {
-					SwitchWander ();
-				}
-			}
-		} else {
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
+        {
+            if ((transform.position - player.transform.position).magnitude < 10)
+            {
+                wandering = false;
+            }
+            else
+            {
+                wandering = true;
+            }
 
-			if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
-				transform.Translate (speed * Time.deltaTime, 0, 0);
-			} else if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x) {
-				transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
-				transform.Translate (speed * Time.deltaTime, 0, 0);
-			} 
-				
-			if (gameObject.name == "GA1") {
-					SpinningAttack ();
-					isSpinning = true;
-			}
-		}
+            if (wandering)
+            {
+                if (wanderRight)
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    transform.Translate(-wanderSpeed * Time.deltaTime, 0, 0);
+                    if ((transform.position - rightPos).magnitude < 1.0f)
+                    {
+                        SwitchWander();
+                    }
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    transform.Translate(-wanderSpeed * Time.deltaTime, 0, 0);
+                    if ((transform.position - leftPos).magnitude < 1.0f)
+                    {
+                        SwitchWander();
+                    }
+                }
+            }
+            else
+            {
+
+                if (transform.position.x > player.transform.position.x && (transform.position.x - player.transform.position.x) > attackDist)
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else if (transform.position.x < player.transform.position.x && (transform.position.x + attackDist) < player.transform.position.x)
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+
+                if (gameObject.name == "GA1")
+                {
+                    SpinningAttack();
+                    isSpinning = true;
+                }
+            }
+        }
 	}
 
 	void SwitchWander(){
