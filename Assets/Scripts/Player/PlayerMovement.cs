@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	public static float speed  = 8f;
 	public float jumpForce = 300f;
+	public int movementDir = 0;
 	private bool isGrounded = false;
 
 	Vector3 movement;
@@ -36,8 +37,17 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Move(float h) {
 		movement.Set (h, 0f, 0f);
+
+		if (movement.x > 0) {
+			movementDir = 1;
+		} else if (movement.x < 0) {
+			movementDir = -1;
+		} else {
+			movementDir = 0;
+		}
 		movement = movement.normalized * speed * Time.deltaTime;
 		playerRigidbody.MovePosition (transform.position + movement);
+
 	}
 
 	void Jump() {
