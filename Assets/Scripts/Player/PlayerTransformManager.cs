@@ -49,6 +49,7 @@ public class PlayerTransformManager : MonoBehaviour {
 
 	void UseAbility () {
 		if (current_form != null) {
+<<<<<<< 8b4892e1d12559224060ac36d27f4d6ec257c9d9
             if (GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.START_MENU && GameObject.Find("GameManager").GetComponent<GameManager>().GetCurrGameState() != GAME_STATE.PAUSED && !GameObject.Find("UIManager").GetComponent<UIManager>().GetPaused())
             {
                 if (Input.GetButton("Fire1"))
@@ -64,6 +65,15 @@ public class PlayerTransformManager : MonoBehaviour {
                     UseSpecialAbility();
                 }
             }
+=======
+			if (Input.GetMouseButtonDown(0)) {
+				UseAbility1 ();
+			} else if (Input.GetMouseButtonDown(1)) {
+				UseAbility2 ();
+			} else if (Input.GetKeyDown(KeyCode.E)) {
+				UseSpecialAbility ();
+			}
+>>>>>>> floriwfewf
 			;
 		} else {
 
