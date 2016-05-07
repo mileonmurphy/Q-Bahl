@@ -10,6 +10,7 @@ public class MasterHandScript : MonoBehaviour {
 	Vector3 dist;
 	Vector3 playerPos;
 	Vector3 smashTargetPosition;
+	Vector3 groundPos;
 
 	float moveMult;
 	float idleMoveSpeed = 7f;
@@ -17,11 +18,12 @@ public class MasterHandScript : MonoBehaviour {
 	float smashSearchMoveSpeed = 2f;
 	float smashMoveSpeed = 5f;
 	float playerMoveDir;
-	GameObject fingerIndex;
-	GameObject fingerMiddle;
-	GameObject fingerRing;
-	GameObject fingerPinky;
-	GameObject fingerThumb;
+	float randTime;
+	GameObject fingerIndexTip;
+	GameObject fingerMiddleTip;
+	GameObject fingerRingTip;
+	GameObject fingerPinkyTip;
+	GameObject fingerThumbTip;
 	PlayerMovement playerMoveComp;
 
 	RaycastHit[] hits;
@@ -30,17 +32,18 @@ public class MasterHandScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		checkForGround ();
 		currState = BossState.IDLE;
 		player = (GameObject) GameObject.FindGameObjectWithTag ("Player");
 		playerMoveComp = player.GetComponent<PlayerMovement> ();
 		playerMoveDir = playerMoveComp.movementDir;
 
 		// Get fingers
-		fingerIndex = transform.FindChild ("FingerIndex").gameObject;
-		fingerMiddle = transform.FindChild ("FingerMiddle").gameObject;
-		fingerRing = transform.FindChild ("FingerRing").gameObject;
-		fingerPinky = transform.FindChild ("FingerPinky").gameObject;
-		fingerThumb = transform.FindChild ("FingerThumb").gameObject;
+		fingerIndexTip = transform.FindChild ("FingerIndexTip").gameObject;
+		fingerMiddleTip = transform.FindChild ("FingerMiddleTip").gameObject;
+		fingerRingTip = transform.FindChild ("FingerRingTip").gameObject;
+		fingerPinkyTip = transform.FindChild ("FingerPinkyTip").gameObject;
+		fingerThumbTip = transform.FindChild ("FingerThumbTip").gameObject;
 
 
 		// Set initial bools
@@ -60,11 +63,13 @@ public class MasterHandScript : MonoBehaviour {
 			laserClosePlayer ();
 			break;
 		case BossState.RESET_TO_PLAYER:
+			transform.LookAt (player.transform.position);
 			resetToPlayer ();
 			break;
 		case BossState.ATTACKING:
 			break;
 		case BossState.SMASH_SEARCH:
+			setSmashRotation ();
 			smashSearch ();
 			break;
 		case BossState.SMASH:
@@ -80,10 +85,10 @@ public class MasterHandScript : MonoBehaviour {
 	void laserClosePlayer () {
 		dist = transform.position - player.transform.position;
 		if (!closeLaserCooling) {
-			if (Mathf.Abs (dist.x) < 15f) {
+			if (Mathf.Abs (dist.x) < 10f) {
 				fireMiddleLaser ();
 				closeLaserCooling = true;
-				Invoke ("resetCoolingCloseLaser", 5);
+				Invoke ("resetCoolingCloseLaser", 6);
 			}
 		}
 	}
@@ -116,7 +121,7 @@ public class MasterHandScript : MonoBehaviour {
 	}
 
 	void fireMiddleLaser () {
-		shootLazer (fingerMiddle.transform.FindChild ("FingerTip").gameObject);
+		shootLazer (transform.FindChild ("FingerMiddleTip").gameObject);
 	}
 
 	void resetCoolingCloseLaser () {
@@ -129,29 +134,37 @@ public class MasterHandScript : MonoBehaviour {
 
 	void smashSearch () {
 		setDistDir ();
-		
 		playerPos = player.transform.position;
 		transform.position = Vector3.Lerp(transform.position, new Vector3 (playerPos.x + (3 * playerMoveDir), playerPos.y + 15f, playerPos.z), Time.deltaTime * smashSearchMoveSpeed);
 		smashTargetPosition = playerPos;
 		if (!IsInvoking ("setSmashState")) {
-			Invoke ("setSmashState", 6);
+			randTime = Random.Range (3f, 6f);
+			Debug.Log (randTime);
+			Invoke ("setSmashState", randTime);
 		}
 	}
 
 	void smashMove () {
-		transform.position = Vector3.Lerp(transform.position, smashTargetPosition, Time.deltaTime * smashMoveSpeed);
+		transform.position = Vector3.Lerp(transform.position, new Vector3 (smashTargetPosition.x, groundPos.y,smashTargetPosition.z), Time.deltaTime * smashMoveSpeed);
 
 		if (!IsInvoking ("setResetState")) {
-			Invoke ("setResetState", 4);
+			Invoke ("setResetState", 2);
 		}
 	}
 
+	void setSmashRotation () {
+		transform.localRotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (0, 180, 270), Time.deltaTime * smashSearchMoveSpeed);
+	}
+
+	void setIdleRotation () {
+		transform.localRotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (0, 270, 0), Time.deltaTime * idleMoveSpeed);
+	}
 
 		
 	void resetToPlayer () {
 		setDistDir ();
 		playerPos = player.transform.position;
-		transform.position = Vector3.Lerp(transform.position, new Vector3 (playerPos.x + (25f * moveMult), playerPos.y + 10f, playerPos.z), Time.deltaTime * resetMoveSpeed);
+		transform.position = Vector3.Lerp(transform.position, new Vector3 (playerPos.x + (15f * moveMult), playerPos.y + 10f, playerPos.z), Time.deltaTime * resetMoveSpeed);
 		if (!IsInvoking ("setIdleState")) {
 			Invoke ("setIdleState", 4);
 		}
@@ -185,9 +198,20 @@ public class MasterHandScript : MonoBehaviour {
 		currState = BossState.SMASH;
 	}
 
+	void checkForGround () {
+		hits = Physics.RaycastAll (transform.position, new Vector3 (0, -1, 0), 100f);
+		foreach (RaycastHit hit in hits) {
+			if (hit.transform.CompareTag ("Ground")) {
+				groundPos = hit.transform.position;
+			}
+		}
+	}
 
+	public BossState getCurrState () {
+		return currState;
+	}
 
-	enum BossState {
+	public enum BossState {
 		IDLE,
 		RESET_TO_PLAYER,
 		SMASH_SEARCH,
