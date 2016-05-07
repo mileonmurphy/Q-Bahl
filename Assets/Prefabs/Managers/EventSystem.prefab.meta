@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< 7d3c1e0101cada095413d994c934f60fa5377b5f
 guid: af69813027a4d495fbdd2098528e8efd
 timeCreated: 1462584872
+=======
+guid: e4365aeccb3ac9344b23f70e8e7bc952
+timeCreated: 1462582846
+>>>>>>> fixed prefab
 licenseType: Free
 NativeFormatImporter:
   userData: 
